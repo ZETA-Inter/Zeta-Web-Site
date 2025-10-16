@@ -1,0 +1,84 @@
+.SideBar {
+  background-color: #fcfcfc; 
+  width: 280px; 
+  min-height: 100vh;
+  padding: 0;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  border-right: 1px solid #e0e0e0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Padding para afastar o logo da lateral */
+  padding: 30px 45px; 
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.SideBar nav {
+  margin: 50px 0px;
+}
+
+.SideBar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.SideBar nav ul li {
+  /* Espaçamento entre os links */
+  margin-bottom: 10px; 
+}
+
+.SideBar nav ul li a {
+  text-decoration: none;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s;
+  /* Padding para afastar os links da lateral */
+  padding: 15px 45px; 
+}
+
+.SideBar nav ul li a:hover {
+  color: #000;
+}
+
+.activeLink {
+  background-color: #e8f0ff;
+  color: #007bff !important;
+  font-weight: 600;
+  border-left: 4px solid #007bff; 
+  /* Ajuste de padding para compensar a borda e manter o alinhamento */
+  padding-left: 41px !important; 
+}
+
+.exploreButton {
+  display: block; 
+  background: linear-gradient(135deg, #5b4cf3, #7c64ff);
+  color: white;
+  text-align: center;
+  padding: 15px;
+  /* Margens para afastar das bordas laterais e da base da SideBar */
+  margin: 0 20px 20px 20px; 
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.exploreButton a {
+    color: white;
+    text-decoration: underline;
+    font-size: 12px;
+    display: block;
+    margin-top: 5px;
+}
