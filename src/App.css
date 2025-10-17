@@ -1,3 +1,25 @@
-body {
+/* Configuração Global */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.app-layout {
+  display: flex;
+  min-height: 100vh; 
+  padding: 20px; 
+  gap: 20px;
   background-color: #EFEEFC;
+}
+
+.main-content {
+  flex: 1; 
+  min-width: 0; 
+  min-height: 100%; 
+  padding: 0; 
 }

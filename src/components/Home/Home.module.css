@@ -1,0 +1,205 @@
+/* Container Principal */
+.HomeContainer {
+  padding: 20px; 
+  min-height: 100%; 
+  flex-grow: 1;
+  position: relative; 
+}
+
+.HomeContainer h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.WelcomeBanner {
+  background: linear-gradient(90deg, #26237E 0%, #4540E4 100%);
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.BannerContent h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.BannerContent p {
+  font-size: 1rem;
+  font-weight: 400;
+  max-width: 85%; 
+}
+
+.Mascote {
+  position: absolute;
+  top: 40px;
+  right: 120px;
+  width: 170px;
+  height: auto;
+  transform: translateY(-40px) translateX(0); 
+  z-index: 10; 
+}
+
+.Informacoes {
+  display: flex;
+  gap: 30px;
+}
+
+.InfosProdutores {
+  flex: 2;
+}
+
+/* --- Cards de Produtores --- */
+.Produtores {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 400px;
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.Produtores::-webkit-scrollbar {
+  display: none; /* Ou width: 0; */
+  width: 0; /* WebKit */
+  height: 0;
+}
+
+.ProdutorCard {
+  background-color: white;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sombra suave */
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: transform 0.2s;
+}
+
+.ProdutorCard:hover {
+    transform: translateY(-2px);
+}
+
+.ProdutorFoto {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.ProdutorInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.ProdutorNome {
+    font-weight: 600;
+    color: #333;
+}
+
+.ProdutorSegmento {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* --- Metas Vinculadas (Coluna Direita) --- */
+.MetasVinculadas {
+  flex: 1;
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0; 
+  padding-bottom: 5px;
+}
+
+.MetasHeader {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.MetasList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 400PX;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none
+}
+
+.MetasList::-webkit-scrollbar {
+  display: none; /* Ou width: 0; */
+  width: 0; /* WebKit */
+  height: 0;
+}
+
+.MetasList::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.MetaItem {
+  background-color: white; 
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-left: 5px solid #5b4cf3;
+  padding-left: 10px; 
+}
+.MetaTitle {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+}
+.MetaItem p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+}
+
+
+/* --- Segmentos (Bovinos, Suínos, Aves) --- */
+.Segmentos {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px; 
+}
+
+.Segmentos li {
+  width: 185px; 
+  height: 74px;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background-color: #26237E; 
+}
+
+.Segmentos .SegmentoAtivo {
+  background-color: #4540E4;
+  box-shadow: 0 4px 10px rgba(38, 35, 126, 0.4); 
+}
