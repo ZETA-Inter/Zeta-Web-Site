@@ -1,0 +1,56 @@
+/* Container Principal */
+.HomeContainer {
+  padding: 20px; 
+  min-height: 100%; 
+  flex-grow: 1;
+  position: relative; 
+}
+
+.HomeContainer h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.WelcomeBanner {
+  background: linear-gradient(90deg, #26237E 0%, #4540E4 100%);
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.BannerContent h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.BannerContent p {
+  font-size: 1rem;
+  font-weight: 400;
+  max-width: 85%; 
+}
+
+.Mascote {
+  position: absolute;
+  top: 40px;
+  right: 120px;
+  width: 170px;
+  height: auto;
+  transform: translateY(-40px) translateX(0); 
+  z-index: 10; 
+}
+
+.Informacoes {
+  display: flex;
+  gap: 30px;
+}
+
+.InfosProdutores {
+  flex: 2;
+}
+

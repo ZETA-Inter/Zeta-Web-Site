@@ -1,0 +1,21 @@
+.MetaItem {
+  background-color: white; 
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-left: 5px solid #5b4cf3;
+  padding-left: 10px; 
+}
+
+.MetaTitle {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 3px;
+}
+
+.MetaItem p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
