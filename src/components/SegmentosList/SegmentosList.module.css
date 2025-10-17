@@ -1,0 +1,29 @@
+.Segmentos {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px; 
+}
+
+.Segmentos li {
+  width: 185px; 
+  height: 74px;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background-color: #26237E; 
+}
+
+.Segmentos .SegmentoAtivo {
+  background-color: #4540E4;
+  box-shadow: 0 4px 10px rgba(38, 35, 126, 0.4); 
+}

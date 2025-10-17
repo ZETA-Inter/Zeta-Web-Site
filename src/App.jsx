@@ -1,10 +1,10 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, Meta } from "react-router-dom";
 import SideBar from "./components/Sidebar/Sidebar";
-import Home from "./components/Home/Home";
-import Produtor from "./components/Produtor";
-import Curso from "./components/Curso";
-import Metas from "./components/Metas";
+import Home from "./pages/Home/Home";
+import Produtor from "./pages/Produtor/Produtor";
+import Curso from "./pages/Curso/Curso";
+import Metas from "./pages/Metas/Metas";
 
 function App() {
   // Removendo o padding do contêiner principal e movendo o minHeight para o CSS global.
