@@ -5,7 +5,7 @@
   padding: 0;
   display: flex;
   gap: 15px;
-  margin-bottom: 30px; 
+  margin-bottom: 25px; 
 }
 
 .Segmentos li {
@@ -20,7 +20,7 @@
   color: white;
   cursor: pointer;
   transition: background-color 0.2s;
-  background-color: #26237E; 
+  background-image: url("/src/assets/images/Fundo-btn-segmento.png"); 
 }
 
 .Segmentos .SegmentoAtivo {
