@@ -55,7 +55,8 @@ function SideBar() {
       
       <div className={styles.exploreButton}>
         <div>Explorar novas funcionalidades</div>
-        <Link to="/planos">acesse novos planos</Link> 
+        <div>acesse novos planos</div>
+        <button>Planos</button> 
       </div>
     </div>
   );
