@@ -17,7 +17,7 @@ async function listWorkersByCompany(companyId) {
       
     const data = await res.json();
     
-    console.log(data)
+    console.log(`Lista de produtores do fornecedor ${companyId}: `, data)
     
     return data;
   } catch (err) {
@@ -68,7 +68,7 @@ async function createWorker(worker) {
 
       const data = await res.json();
 
-      console.log("Produtor criado com sucesso", data)
+      console.log("Produtor criado com sucesso: ", data)
 
       return data
   } catch (err) {
@@ -76,8 +76,34 @@ async function createWorker(worker) {
   }
 }
 
+async function updateWorker(workerId, worker) {
+  try {
+      const res = await fetch(`${postgres_url}/api/workers/update/${workerId}`, {
+        method: "PATCH",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(worker)
+      })
+
+      if (!res.ok) {
+        throw new Error("Erro na requisição: " + res.status)
+      }
+
+      const message = await res.text();
+
+      console.log(message)
+
+      return message
+  } catch (err) {
+    console.error(`Erro ao atualizar o produtor ${workerId}: `, err, err.message)
+  }
+}
+
 export default {
   listWorkersByCompany,
   inactiveWorker,
-  createWorker
+  createWorker,
+  updateWorker
 };
