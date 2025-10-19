@@ -52,7 +52,33 @@ async function listWorkerIdsByGoalId(goalId) {
     }
 }
 
+async function createGoal(goal) {
+  try {
+      const res = await fetch(`${postgres_url}/api/goals/create`, {
+        method: "POST",
+        headers: {
+          "Authorization":  `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(goal)
+      })
+
+      if (!res.ok) {
+        throw new Error("Erro na requsição: " + res.status);
+      }
+
+      const data = await res.json();
+
+      console.log("Meta criada com sucesso: ", data)
+
+      return data
+  } catch (err) {
+    console.error("Erro ao criar meta: ", err, err.message)
+  }
+}
+
 export default {
   listGoalsByCompanyId,
   listWorkerIdsByGoalId,
+  createGoal
 };
