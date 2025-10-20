@@ -1,43 +1,71 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import styles from "./Home.module.css"
 import mascote from "../../assets/images/zenin.svg"
 import SegmentosList from "../../components/SegmentosList/SegmentosList"; 
 import ProdutoresList from "../../components/ProdutoresList/ProdutoresList";
 import MetasList from "../../components/MetasList/MetasList";
+import GoalService from "../../services/goalService"
+import WorkerService from "../../services/workerService"
 
 function Home() {
 
-  const allProdutores = [
-    { id: 1, nome: "Roberto Campos", segmento: "Bovinos", foto: "https://cdn-icons-png.flaticon.com/512/3135/3135768.png" },
-    { id: 2, nome: "Júlia Silva", segmento: "Suínos", foto: "https://cdn-icons-png.flaticon.com/512/3135/3135768.png" },
-    { id: 3, nome: "Carlos Almeida", segmento: "Bovinos", foto: "https://cdn-icons-png.flaticon.com/512/3135/3135768.png" },
-    { id: 4, nome: "Mariana Souza", segmento: "Aves", foto: "https://cdn-icons-png.flaticon.com/512/3135/3135768.png" },
-    { id: 5, nome: "Lucas Degasperi", segmento: "Bovinos", foto: "https://cdn-icons-png.flaticon.com/512/3135/3135768.png" },
-    { id: 6, nome: "George Mesquita", segmento: "Suínos", foto: "https://cdn-icons-png.flaticon.com/512/3135/3135768.png" },
-    { id: 7, nome: "Denise Perereira", segmento: "Aves", foto: "https://cdn-icons-png.flaticon.com/512/3135/3135768.png" },
-  ];
+  const companyId = 1
 
-  const metas = [
-    { id: 1, titulo: "Meta 1", descricao: "Descrição do que deve ser feito" },
-    { id: 2, titulo: "Meta 2", descricao: "Descrição do que deve ser feito" },
-    { id: 3, titulo: "Meta 3", descricao: "Descrição do que deve ser feito" },
-    { id: 4, titulo: "Meta 4", descricao: "Descrição do que deve ser feito" },
-    { id: 5, titulo: "Meta 5", descricao: "Descrição do que deve ser feito" },
-    { id: 6, titulo: "Meta 6", descricao: "Descrição do que deve ser feito" },
-    { id: 7, titulo: "Meta 7", descricao: "Descrição do que deve ser feito" },
-  ];
+  const [workers, setWorkers] = useState([]);
+  const [goals, setGoals] = useState([]);
+ 
+  const [workersLoading, setWorkersLoading] = useState(true);
+  const [goalsLoading, setGoalsLoading] = useState(true);
+
+  useEffect(() => {
+
+    async function fetchWorkers() {
+      try {
+        setWorkersLoading(true);
+        const workers = await WorkerService.listWorkersByCompany(companyId)
+        setWorkers(workers)
+      } catch (error) {
+        console.error("Erro ao carregar produtores: ", error);
+      } finally {
+        setWorkersLoading(false);
+      }
+    }
+
+    async function fetchGoals() {
+      try {
+        setGoalsLoading(true);
+        const goals = await GoalService.listGoalsByCompanyId(companyId)
+        setGoals(goals);
+      } catch (error) {
+        console.error("Erro ao carregar metas: ", error);
+      } finally {
+        setGoalsLoading(false);
+      }
+    }
+    
+    fetchGoals()
+    fetchWorkers()
+
+  }, [companyId])
 
   const [segmentoAtivo, setSegmentoAtivo] = useState(null);
 
   const produtoresFiltrados = useMemo(() => {
-    return segmentoAtivo
-      ? allProdutores.filter(p => p.segmento === segmentoAtivo)
-      : allProdutores;
-  }, [segmentoAtivo, allProdutores]);
+    if (!segmentoAtivo) {
+      return workers;
+    }
+    
+    return workers.filter(w => 
+      w.segments && w.segments.includes(segmentoAtivo) 
+    );
+    
+  }, [segmentoAtivo, workers]);
 
   const handleSegmentoSelection = (segmento) => {
     setSegmentoAtivo(segmento);
   };
+
+  const isLoading = workersLoading || goalsLoading;
 
   return(
     <main className={styles.HomeContainer}> 
@@ -56,15 +84,26 @@ function Home() {
       <div className={styles.Informacoes}>
         <div className={styles.InfosProdutores}>
           
-          <SegmentosList 
-            onSelectSegmento={handleSegmentoSelection}
-          />
+          <div className={styles.InfosSegmentos}>
+            <SegmentosList 
+              onSelectSegmento={handleSegmentoSelection}
+            />
+          </div>
+        
           
-          <ProdutoresList produtores={produtoresFiltrados} />
+          {workersLoading ? (
+             <p>Carregando produtores...</p>
+          ) : (
+            <ProdutoresList produtores={produtoresFiltrados} />
+          )}
 
         </div>
 
-        <MetasList metas={metas} />
+        {goalsLoading ? (
+          <p>Carregando metas...</p>
+        ) : (
+          <MetasList metas={goals} />
+        )}
         
       </div>
     </main>

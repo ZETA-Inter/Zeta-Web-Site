@@ -13,9 +13,10 @@ function ProdutoresList({ produtores }) {
       {produtores.map(produtor => (
         <CardProdutor
           key={produtor.id}
-          nome={produtor.nome}
-          segmento={produtor.segmento}
-          foto={produtor.foto}
+          nome={produtor.name}
+          segmento={produtor.segments.join(', ')}
+          active={produtor.active}
+          foto={produtor.image_url}
         />
       ))}
     </ul>

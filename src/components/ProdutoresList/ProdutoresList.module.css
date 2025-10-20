@@ -6,7 +6,7 @@
   flex-direction: column;
   gap: 15px;
   height: 30%;
-  min-height: 38vh;
+  min-height: 45vh;
   overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;

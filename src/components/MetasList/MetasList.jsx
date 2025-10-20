@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './MetasList.module.css'; // Crie este novo arquivo CSS
+import styles from './MetasList.module.css';
 import CardMeta from '../CardMeta/CardMeta'; 
 
 function MetasList({ metas }) {
@@ -18,11 +18,11 @@ function MetasList({ metas }) {
       <div className={styles.MetasHeader}>Metas vinculadas a Produtor</div>
       
       <div className={styles.MetasListContainer}> 
-        {metas.map(meta => (
+        {metas.map((meta, index) => (
           <CardMeta
             key={meta.id}
-            titulo={meta.titulo}
-            descricao={meta.descricao}
+            titulo={`Meta ${index + 1}`}
+            descricao={meta.description}
           />
         ))}
       </div>
