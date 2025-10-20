@@ -1,5 +1,5 @@
 const token = "TokenUserZeta1234"
-const postgres_url = "https://api-postgresql-zeta-fide.onrender.com/"
+const postgres_url = "https://api-postgresql-zeta-fide.onrender.com"
 
 async function listWorkersByCompany(companyId) {
   try {

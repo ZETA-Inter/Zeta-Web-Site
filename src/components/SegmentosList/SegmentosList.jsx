@@ -3,7 +3,7 @@ import styles from './SegmentosList.module.css';
 
 function SegmentosList({ onSelectSegmento }) {
   
-  const segmentos = ["Bovinos", "Suínos", "Aves"];
+  const segmentos = ["Bovino", "Suíno", "Aves"];
   const [segmentoAtivo, setSegmentoAtivo] = useState(null);
 
   const handleSegmentoClick = (segmento) => {

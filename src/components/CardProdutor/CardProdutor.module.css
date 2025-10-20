@@ -34,3 +34,26 @@
   font-size: 0.85rem;
   color: #666;
 }
+
+.ProdutorStatus {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 5px;
+}
+
+.ProdutorStatus span {
+  font-weight: 600;
+  margin-left: 5px;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.Active {
+  color: #1abc9c;
+  background-color: #e8f8f5;
+}
+
+.Inactive {
+  color: #e74c3c;
+  background-color: #fbedeb;
+}

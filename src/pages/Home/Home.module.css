@@ -21,17 +21,18 @@ body{
 .WelcomeBanner {
   background: linear-gradient(90deg, #26237E 0%, #4540E4 100%);
   color: white;
-  /* padding: 30px; */
-  padding-left: 20px;
+  padding-left: 30px;
   border-radius: 15px;
   margin-bottom: 20px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  height: 20vh;
 
   img{
-      position: relative; 
-      left: 30vh;
+      position: relative;
+      height: 20vh;
+      left: 32vh;
   }
 }
 
@@ -49,8 +50,8 @@ body{
 
 .Mascote {
   position: absolute;
-  top: 30px;
-  right: 150px;
+  top: 0px;
+  right: 165px;
   width: 170px;
   height: auto;
   transform: translateY(-40px) translateX(0); 
@@ -62,7 +63,10 @@ body{
   gap: 30px;
 }
 
+.InfosSegmentos {
+  margin-top: -13px;
+}
+
 .InfosProdutores {
   flex: 2;
 }
-
