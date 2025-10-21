@@ -64,7 +64,7 @@ async function createGoal(goal) {
       })
 
       if (!res.ok) {
-        throw new Error("Erro na requsição: " + res.status);
+        throw new Error("Erro na requsição: " + res.status + ", corpo: " + res.body);
       }
 
       const data = await res.json();
@@ -74,6 +74,29 @@ async function createGoal(goal) {
       return data
   } catch (err) {
     console.error("Erro ao criar meta: ", err, err.message)
+  }
+}
+
+async function deleteGoal(goalId) {
+  try {
+    const res = await fetch(`${postgres_url}/api/goals/delete/${goalId}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization":  `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
+
+    if (!res.ok) {
+      throw new Error("Erro na requsição: " + res.status + ", corpo: " + res.body);
+    }
+
+    const data = await res.json();
+
+    console.log("Meta criada com sucesso: ", data)
+
+  } catch (err) {
+    console.error("Erro ao deletar meta: ", err, err.message)
   }
 }
 

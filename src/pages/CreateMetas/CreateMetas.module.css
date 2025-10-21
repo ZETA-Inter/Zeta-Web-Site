@@ -1,0 +1,196 @@
+.CreateMetasPage {
+    padding: 30px;
+    min-height: 100vh;
+}
+
+.PageTitle {
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.ContentWrapper {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.FormArea {
+    flex: 1.1;
+    padding: 30px;
+}
+
+.Label {
+    display: block;
+    font-weight: 600;
+    color: #555;
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+.TextInput, .TextArea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.TextInput:focus, .TextArea:focus {
+    border-color: #4540E4;
+    outline: none;
+}
+
+.TextArea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.ButtonRow {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.PlaceholderButton {
+    padding: 10px 20px;
+    background-color: #4540E4; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.PlaceholderButton:hover {
+    background-color: #312baf;
+}
+
+.SidebarSticky {
+    flex: 1;
+    position: sticky;
+    top: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.SidebarTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.SearchBar {
+    display: flex;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.SearchBar input {
+    flex-grow: 1;
+    padding: 8px 10px;
+    border: none;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.SearchButton {
+    background-color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.2s;
+}
+
+.SearchButton:hover {
+    color: #4540E4;
+}
+
+.SelectAllBox {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+}
+
+.SelectAllBox label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #555;
+}
+
+.SelectAllBox input[type="checkbox"] {
+    margin-right: 8px;
+    width: 18px;
+    height: 18px;
+    accent-color: #4540E4;
+}
+
+.WorkerSelectionList {
+    width: 100%;
+    max-height: 42vh;
+    overflow-y: auto;
+}
+
+.WorkerSelectionItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 5px 0px;
+}
+
+.WorkerSelectionItem input[type="checkbox"] {
+    min-width: 20px;
+    min-height: 20px;
+    cursor: pointer;
+    accent-color: #4540E4;
+}
+
+.WorkerSelectionItem > :global(.CardProdutor) {
+    flex-grow: 1;
+    min-width: 0;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.WorkerSelectionItem:hover > :global(.CardProdutor) {
+    border-color: #4540E4;
+}
+
+
+.SaveButton {
+    width: 100%;
+    padding: 12px;
+    background-color: #4540E4;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: background-color 0.3s;
+}
+
+.SaveButton:hover:not(:disabled) {
+    background-color: #312baf;
+}
+
+.SaveButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

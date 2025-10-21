@@ -7,46 +7,76 @@ import MetasList from "../../components/MetasList/MetasList";
 import GoalService from "../../services/goalService"
 import WorkerService from "../../services/workerService"
 
+const getInitialData = (key, defaultValue) => {
+  const saved = localStorage.getItem(key);
+  if (saved) {
+      return JSON.parse(saved);
+  }
+  return defaultValue;
+};
+
 function Home() {
 
-  const companyId = 1
+  const companyId = localStorage.getItem("companyId") || 1;
 
-  const [workers, setWorkers] = useState([]);
-  const [goals, setGoals] = useState([]);
+  const loadGoalsFromStorage = () => getInitialData("goals", []);
+
+  const [workers, setWorkers] = useState(() => getInitialData("workers", []));
+  const [goals, setGoals] = useState(loadGoalsFromStorage);
  
-  const [workersLoading, setWorkersLoading] = useState(true);
-  const [goalsLoading, setGoalsLoading] = useState(true);
+  useEffect(() => {
+    const handleStorageChange = () => {
+      console.log("Detectada mudança no armazenamento! Recarregando metas...");
+      setGoals(loadGoalsFromStorage()); 
+    };
+
+    window.addEventListener("storageUpdate", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storageUpdate", handleStorageChange);
+    };
+  }, [])
+
+  const hasCachedWorkers = workers.length > 0;
+  const hasCachedGoals = goals.length > 0;
+
+  const [workersLoading, setWorkersLoading] = useState(!hasCachedWorkers);    
+  const [goalsLoading, setGoalsLoading] = useState(!hasCachedGoals);
 
   useEffect(() => {
 
     async function fetchWorkers() {
-      try {
-        setWorkersLoading(true);
-        const workers = await WorkerService.listWorkersByCompany(companyId)
-        setWorkers(workers)
-      } catch (error) {
-        console.error("Erro ao carregar produtores: ", error);
-      } finally {
-        setWorkersLoading(false);
-      }
+        if (!hasCachedWorkers) setWorkersLoading(true);
+
+        try {
+            const fetchedWorkers = await WorkerService.listWorkersByCompany(companyId);
+            setWorkers(fetchedWorkers);
+            localStorage.setItem("workers", JSON.stringify(fetchedWorkers));
+        } catch (error) {
+            console.error("Erro ao carregar produtores: ", error);
+        } finally {
+            setWorkersLoading(false);
+        }
     }
 
     async function fetchGoals() {
-      try {
-        setGoalsLoading(true);
-        const goals = await GoalService.listGoalsByCompanyId(companyId)
-        setGoals(goals);
-      } catch (error) {
-        console.error("Erro ao carregar metas: ", error);
-      } finally {
-        setGoalsLoading(false);
-      }
-    }
-    
-    fetchGoals()
-    fetchWorkers()
+         if (!hasCachedGoals) setGoalsLoading(true);
 
-  }, [companyId])
+        try {
+            const fetchedGoals = await GoalService.listGoalsByCompanyId(companyId);
+            setGoals(fetchedGoals);
+            localStorage.setItem("goals", JSON.stringify(fetchedGoals));
+        } catch (error) {
+            console.error("Erro ao carregar metas: ", error);
+        } finally {
+            setGoalsLoading(false);
+        }
+    }
+      
+    fetchGoals();
+    fetchWorkers();
+
+  }, [companyId, hasCachedWorkers, hasCachedGoals]);
 
   const [segmentoAtivo, setSegmentoAtivo] = useState(null);
 

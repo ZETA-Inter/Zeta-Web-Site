@@ -1,0 +1,78 @@
+.MetaCardEdit {
+    background-color: white;
+    padding: 15px;
+    padding-left: 0; 
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    border: 1px solid #eee;
+}
+
+.ActiveMeta {
+    border: 2px solid #4540E4; 
+    box-shadow: 0 0 10px rgba(69, 64, 228, 0.4); 
+    background-color: yellow !important; 
+}
+
+.ActiveMeta .LeftBar {
+    background-color: #4540E4 !important;
+    width: 6px;
+}
+
+.MetaCardEdit:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.LeftBar {
+    width: 5px;
+    height: 100%;
+    background-color: #4540E4; 
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 8px 0 0 8px;
+}
+
+.MetaContent {
+    flex-grow: 1;
+    padding-left: 15px; 
+}
+
+.MetaTitle {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.MetaDescription {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+}
+
+.Actions {
+    display: flex;
+    gap: 10px;
+    padding-right: 10px;
+}
+
+.EditButton, .DeleteButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 5px;
+    color: #666;
+    transition: color 0.2s;
+}
+
+.EditButton:hover {
+    color: #4540E4;
+}
+
+.DeleteButton:hover {
+    color: #e74c3c;
+}
