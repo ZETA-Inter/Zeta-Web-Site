@@ -5,10 +5,9 @@ import Home from "./pages/Home/Home";
 import Produtor from "./pages/Produtor/Produtor";
 import Curso from "./pages/Curso/Curso";
 import Metas from "./pages/Metas/Metas";
+import CreateMetas from "./pages/CreateMetas/CreateMetas"
 
 function App() {
-  // Removendo o padding do contêiner principal e movendo o minHeight para o CSS global.
-  // Vamos usar um className aqui para facilitar o estilo.
   return (
     <Router>
       <div className="app-layout"> 
@@ -20,6 +19,7 @@ function App() {
             <Route path="/curso" element={<Curso />} />
             <Route path="/metas" element={<Metas />} />
             <Route path="/produtor" element={<Produtor />} />
+            <Route path="metas/create" element={<CreateMetas />} />
           </Routes>
         </div>
       </div>
