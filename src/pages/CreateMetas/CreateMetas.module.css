@@ -19,6 +19,7 @@
 .FormArea {
     flex: 1.1;
     padding: 30px;
+    margin-top: 5%;
 }
 
 .Label {
@@ -61,7 +62,7 @@
     color: white;
     border: none;
     border-radius: 8px;
-    font-weight: 600;
+    font-weight: 600px;
     cursor: pointer;
     transition: background-color 0.2s;
 }
@@ -93,6 +94,7 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     overflow: hidden;
+    background-color: #f9f9f9;
 }
 
 .SearchBar input {
@@ -101,6 +103,7 @@
     border: none;
     font-size: 0.95rem;
     outline: none;
+    background-color: transparent;
 }
 
 .SearchButton {
@@ -121,6 +124,7 @@
     padding-bottom: 15px;
     border-bottom: 1px solid #eee;
     font-size: 0.95rem;
+    background-color: #f9f9f9;
 }
 
 .SelectAllBox label {
@@ -128,6 +132,8 @@
     align-items: center;
     cursor: pointer;
     color: #555;
+    background-color: #f9f9f9;
+
 }
 
 .SelectAllBox input[type="checkbox"] {
@@ -135,6 +141,11 @@
     width: 18px;
     height: 18px;
     accent-color: #4540E4;
+}
+
+.FormArea input, .FormArea textarea {
+    background-color: #f9f9f9;
+    color: #333;
 }
 
 .WorkerSelectionList {
@@ -160,7 +171,6 @@
 
 .WorkerSelectionItem > :global(.CardProdutor) {
     flex-grow: 1;
-    min-width: 0;
     width: 100% !important;
     box-sizing: border-box !important;
     border: 1px solid transparent;
