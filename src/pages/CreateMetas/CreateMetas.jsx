@@ -152,11 +152,15 @@ function CreateMetas() {
                         onChange={(e) => setDescription(e.target.value)}
                         disabled={isSubmitting}
                     />
+
+                    <button 
+                        type="submit" 
+                        className={styles.SaveButton}
+                        disabled={isSubmitting || selectedWorkerIds.length === 0}
+                    >
+                        {isSubmitting ? 'Cadastrando...' : 'Cadastrar Meta'}
+                    </button>
                     
-                    <div className={styles.ButtonRow}>
-                         <button type="button" className={styles.PlaceholderButton}>Adicionar produtor</button>
-                         <button type="button" className={styles.PlaceholderButton}>Adicionar produtor</button>
-                    </div>
                 </div>
 
                 <div className={styles.SidebarSticky}>
@@ -202,15 +206,6 @@ function CreateMetas() {
                         ))}
                         {filteredWorkers.length === 0 && <p>Nenhum produtor encontrado.</p>}
                     </div>
-                    
-
-                    <button 
-                        type="submit" 
-                        className={styles.SaveButton}
-                        disabled={isSubmitting || selectedWorkerIds.length === 0}
-                    >
-                        {isSubmitting ? 'Cadastrando...' : 'Cadastrar Meta'}
-                    </button>
                 </div>
             </form>
         </main>
