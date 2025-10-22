@@ -90,8 +90,13 @@ function Metas() {
     }
 
     const handleAddGoalClick = () => {
-      navigate('/metas/create'); 
+      navigate('/metas/create');
     };
+
+    const handleDeleteGoal = (goalId) => {
+        console.log(`Meta a ser deletada: ${goalId}`)
+        GoalService.deleteGoal(goalId)
+    }
     
     return (
         <main className={styles.MetasPage}>
@@ -113,7 +118,6 @@ function Metas() {
 
             <div className={styles.ContentWrapper}>
 
-                {/* LISTA CENTRAL DE METAS */}
                 <div className={styles.MetaListArea}>
                     {metasFiltradas.length > 0 ? (
                         metasFiltradas.map((meta, index) => (
@@ -122,7 +126,7 @@ function Metas() {
                                 title={meta.title || `Meta ${index + 1}`} 
                                 description={meta.description} 
                                 onEdit={() => console.log('Editar:', meta.id)}
-                                onDelete={() => console.log('Excluir:', meta.id)}
+                                onDelete={() => handleDeleteGoal(meta.id)}
                                 onClick={() => setActiveGoalId(meta.id)}
                                 className={meta.id === activeGoalId ? styles.ActiveMeta : ''} 
                             />

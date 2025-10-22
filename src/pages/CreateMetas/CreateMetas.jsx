@@ -2,6 +2,7 @@ import styles from "./CreateMetas.module.css"
 import React, { useState, useMemo } from 'react';
 import WorkerCard from '../../components/CardProdutor/CardProdutor';
 import GoalService from '../../services/goalService';
+import CompanySerice from '../../services/companySerice';
 
 const getInitialData = (key, defaultValue) => {
     const saved = localStorage.getItem(key);
@@ -75,16 +76,19 @@ function CreateMetas() {
         
         const newGoalData = {
             description: description,
-            company_id: companyId,
+            company_id: companyId
         };
         
         try {
             const response = await GoalService.createGoal(newGoalData);
 
             if (response) {
+
+                const newGoalId = response.id;
+
                 const goalToSave = { 
                     ...newGoalData, 
-                    id: Date.now()
+                    id: newGoalId
                 };
 
                 const existingGoals = JSON.parse(localStorage.getItem("goals") || "[]");
@@ -94,7 +98,10 @@ function CreateMetas() {
 
                 window.dispatchEvent(new Event("storageUpdate"));
             
-                console.log("Nova Meta a ser enviada:", newGoalData);
+                console.log(`Atribuindo Meta ID ${newGoalId} aos produtores:`, selectedWorkerIds);
+
+                await CompanySerice.assignGoal(newGoalId, selectedWorkerIds);
+
                 alert(`Meta "${title}" criada com sucesso e vinculada a ${selectedWorkerIds.length} produtores!`);
             } else {
                 console.warn("Meta não foi criado, algo aconteceu na requisição.");

@@ -1,5 +1,6 @@
 const token = "TokenUserZeta1234"
-const postgres_url = "https://api-postgresql-zeta-fide.onrender.com"
+// const postgres_url = "https://api-postgresql-zeta-fide.onrender.com"
+const postgres_url = "http://localhost:8080"
 
 async function listGoalsByCompanyId(companyId) {
   try {
@@ -91,9 +92,9 @@ async function deleteGoal(goalId) {
       throw new Error("Erro na requsição: " + res.status + ", corpo: " + res.body);
     }
 
-    const data = await res.json();
+    const message = await res.text();
 
-    console.log("Meta criada com sucesso: ", data)
+    console.log("Meta deletada com sucesso: ", message)
 
   } catch (err) {
     console.error("Erro ao deletar meta: ", err, err.message)
@@ -103,5 +104,6 @@ async function deleteGoal(goalId) {
 export default {
   listGoalsByCompanyId,
   listWorkerIdsByGoalId,
-  createGoal
+  createGoal,
+  deleteGoal
 };
