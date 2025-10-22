@@ -16,18 +16,21 @@
 
 .SearchBar {
     display: flex;
-    max-width: 400px;
+    max-width:63%;
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
     overflow: hidden;
-}
+    background-color: #f9f9f9;
+    }
 
 .SearchBar input {
     flex-grow: 1;
     padding: 10px 15px;
     border: none;
     outline: none;
+    background-color: transparent;
+    color: #333;
 }
 
 .SearchButton {
@@ -110,11 +113,16 @@
 .WorkerList {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-    
+    /* gap: 8px; */
+    margin-bottom: 15px;
+    text-align: center;
+    color: #333;
     max-height: 50vh; 
     overflow-y: auto;
+
+    p{
+        font-size: 2vh;
+    }
 }
 
 .AddButton {
