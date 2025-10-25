@@ -21,8 +21,8 @@ function MetasList({ metas }) {
         {metas.map((meta, index) => (
           <CardMeta
             key={meta.id}
-            titulo={`Meta ${index + 1}`}
-            descricao={meta.description}
+            name={meta.name || `Meta ${index + 1}`}
+            description={meta.description}
           />
         ))}
       </div>

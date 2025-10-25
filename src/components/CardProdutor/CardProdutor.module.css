@@ -15,7 +15,7 @@
 
 .ProdutorFoto {
   width: 10%;
-  height: 10%;
+  height: 85%;
   border-radius: 50%;
   object-fit: cover;
 }

@@ -1,8 +1,10 @@
 import styles from "./CreateMetas.module.css"
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import WorkerCard from '../../components/CardProdutor/CardProdutor';
 import GoalService from '../../services/goalService';
 import CompanySerice from '../../services/companySerice';
+import ProgramService from '../../services/programService';
 
 const getInitialData = (key, defaultValue) => {
     const saved = localStorage.getItem(key);
@@ -12,8 +14,12 @@ const getInitialData = (key, defaultValue) => {
     return defaultValue;
 };
 
-
 function CreateMetas() {
+
+    const { goalId } = useParams();
+    const navigate = useNavigate();
+
+    const isEditing = Boolean(goalId);
 
     const companyId = localStorage.getItem("companyID") || 1;
 
@@ -21,11 +27,70 @@ function CreateMetas() {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [originalWorkerIds, setOriginalWorkerIds] = useState([]);
     const [selectedWorkerIds, setSelectedWorkerIds] = useState([]);
     const [selectAllWorkers, setSelectAllWorkers] = useState(false);
+    const [selectedProgramId, setSelectedProgramId] = useState('');
+    const [programs, setPrograms] = useState([]);
 
     const [workerSearchText, setWorkerSearchText] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useEffect(() => {
+
+        const loadPrograms = async () => {
+            const cachedPrograms = localStorage.getItem("programs");
+            if (cachedPrograms) {
+                setPrograms(JSON.parse(cachedPrograms));
+            } else {
+                try {
+                    const allPrograms = await ProgramService.listAllPrograms(); 
+                    if (allPrograms) {
+                        setPrograms(allPrograms);
+                        localStorage.setItem("programs", JSON.stringify(allPrograms));
+                    }
+                } catch (error) {
+                    console.error("Erro ao carregar programas/cursos:", error);
+                }
+            }
+        };
+
+        const loadGoalData = async () => {
+            if (!isEditing) return;
+
+            try {
+                const existingGoals = JSON.parse(localStorage.getItem("goals") || "[]");
+                const goalToEdit = existingGoals.find(g => String(g.id) === goalId);
+                
+                if (!goalToEdit) {
+                    alert("Meta não encontrada. Redirecionando.");
+                    navigate('/metas');
+                    return;
+                }
+
+                setTitle(goalToEdit.name);
+                setDescription(goalToEdit.description);
+
+                const assignedIds = await GoalService.listWorkerIdsByGoalId(goalId);
+
+                setOriginalWorkerIds(assignedIds);
+                
+                setSelectedWorkerIds(assignedIds); 
+
+                if (assignedIds.length > 0 && assignedIds.length === availableWorkers.length) {
+                    setSelectAllWorkers(true);
+                }
+
+            } catch (error) {
+                console.error("Erro ao carregar dados da meta:", error);
+                alert("Não foi possível carregar os detalhes da meta para edição.");
+                navigate('/metas');
+            }
+        };
+
+        loadPrograms();
+        loadGoalData();
+    }, [goalId, isEditing, availableWorkers, navigate]);
 
     const filteredWorkers = useMemo(() => {
         if (!workerSearchText) {
@@ -74,47 +139,100 @@ function CreateMetas() {
         
         setIsSubmitting(true);
         
-        const newGoalData = {
+        const goalData = {
+            name: title,
             description: description,
+            program_id: Number(selectedProgramId),
             company_id: companyId
         };
         
         try {
-            const response = await GoalService.createGoal(newGoalData);
+            let response = null;
+            let finalGoalId = goalId;
+            let successMessage = "";
+            let metaUpdatedSuccessfully = false;
 
-            if (response) {
+            if (isEditing) {
+                // ATUALIZAR
+                response = await GoalService.updateGoal(goalId, goalData);
+                finalGoalId = goalId;
+                successMessage = `Meta "${title}" atualizada com sucesso!`;
+                metaUpdatedSuccessfully = true
 
-                const newGoalId = response.id;
+                const originalSet = new Set(originalWorkerIds);
+                const selectedSet = new Set(selectedWorkerIds);
 
-                const goalToSave = { 
-                    ...newGoalData, 
-                    id: newGoalId
-                };
+                const idsToRemove = originalWorkerIds.filter(id => !selectedSet.has(id));
+                const idsToAdd = selectedWorkerIds.filter(id => !originalSet.has(id));
+
+                if (idsToRemove.length > 0) {
+                    console.log(`Removendo associações para Goal ${goalId} e Workers:`, idsToRemove);
+                    await GoalService.deleteWorkerGoals(goalId, idsToRemove); 
+                }
+
+                if (idsToAdd.length > 0) {
+                    console.log(`Adicionando associações para Goal ${goalId} e Workers:`, idsToAdd);
+                    await CompanySerice.assignGoal(goalId, idsToAdd);
+                }
+
+                const changes = [];
+                if (idsToAdd.length > 0) changes.push(`${idsToAdd.length} adicionado(s)`);
+                if (idsToRemove.length > 0) changes.push(`${idsToRemove.length} removido(s)`);
+                
+                if (changes.length > 0) {
+                    successMessage += ` Produtores: ${changes.join(' e ')}.`;
+                } else {
+                    successMessage += ` Nenhuma alteração nos produtores.`;
+                }
+
+            } else {
+                // CRIAR
+                response = await GoalService.createGoal(goalData);
+                finalGoalId = response.id;
+                successMessage = `Meta "${title}" criada com sucesso!`;
+                metaUpdatedSuccessfully = true
+
+                console.log(`Atribuindo Meta ID ${finalGoalId} aos produtores:`, selectedWorkerIds);
+                await CompanySerice.assignGoal(finalGoalId, selectedWorkerIds); 
+                
+                successMessage += ` E vinculada a ${selectedWorkerIds.length} produtores.`;
+            }
+            
+            if (response || metaUpdatedSuccessfully) {
 
                 const existingGoals = JSON.parse(localStorage.getItem("goals") || "[]");
-                const updatedGoals = [...existingGoals, goalToSave];
+                if (isEditing) {
+                    const updatedGoals = existingGoals.map(g => 
+                        String(g.id) === goalId ? { ...goalData, id: finalGoalId } : g
+                    );
+                    localStorage.setItem("goals", JSON.stringify(updatedGoals));
+                } else {
+                    const goalToSave = { ...goalData, id: finalGoalId };
+                    localStorage.setItem("goals", JSON.stringify([...existingGoals, goalToSave]));
+                }
             
-                localStorage.setItem("goals", JSON.stringify(updatedGoals));
-
                 window.dispatchEvent(new Event("storageUpdate"));
-            
-                console.log(`Atribuindo Meta ID ${newGoalId} aos produtores:`, selectedWorkerIds);
 
-                await CompanySerice.assignGoal(newGoalId, selectedWorkerIds);
+                alert(successMessage);
+                
+                navigate('/metas');
 
-                alert(`Meta "${title}" criada com sucesso e vinculada a ${selectedWorkerIds.length} produtores!`);
             } else {
-                console.warn("Meta não foi criado, algo aconteceu na requisição.");
+                console.warn(`A Meta ${isEditing ? 'não foi atualizada' : 'não foi criada'}, algo aconteceu na requisição.`);
+                alert(`Falha na comunicação. Tente novamente.`);
             }
             
         } catch (error) {
-            console.error("Erro ao cadastrar meta:", error);
-            alert("Erro ao cadastrar meta. Tente novamente.");
+            console.error(`Erro ao ${isEditing ? 'atualizar' : 'cadastrar'} meta:`, error);
+            alert(`Erro ao ${isEditing ? 'atualizar' : 'cadastrar'} meta. Tente novamente.`);
         } finally {
-            setTitle('');
-            setDescription('');
-            setSelectedWorkerIds([]);
-            setSelectAllWorkers(false);
+            if (!isEditing) {
+                setTitle('');
+                setDescription('');
+                setSelectedProgramId('');
+                setSelectedWorkerIds([]);
+                setSelectAllWorkers(false);
+            }
             setIsSubmitting(false);
         }
     };
@@ -132,8 +250,10 @@ function CreateMetas() {
     return (
         <main className={styles.CreateMetasPage}>
             
-            <h1 className={styles.PageTitle}>Metas - Inserir nova meta</h1>
-            
+            <h1 className={styles.PageTitle}>
+                Metas - {isEditing ? 'Editar Meta' : 'Inserir nova meta'} 
+            </h1>
+
             <form className={styles.ContentWrapper} onSubmit={handleSubmit}>
 
                 <div className={styles.FormArea}>
@@ -159,6 +279,22 @@ function CreateMetas() {
                         onChange={(e) => setDescription(e.target.value)}
                         disabled={isSubmitting}
                     />
+
+                    <label className={styles.Label} htmlFor="meta-program">Curso (Programa)</label>
+                    <select
+                        id="meta-program"
+                        className={styles.TextInput}
+                        value={selectedProgramId}
+                        onChange={(e) => setSelectedProgramId(e.target.value)}
+                        disabled={isSubmitting || programs.length === 0}
+                    >
+                        <option value="">Selecione um curso...</option>
+                        {programs.map(program => (
+                            <option key={program.id} value={program.id}> 
+                                {program.name || program.title} 
+                            </option>
+                        ))}
+                    </select>
 
                     <button 
                         type="submit" 
