@@ -90,7 +90,33 @@ function Metas() {
     }
 
     const handleAddGoalClick = () => {
-      navigate('/metas/create'); 
+      navigate('/metas/create');
+    };
+
+    const handleEditGoal = (goalId) => {
+        navigate(`/metas/create/${goalId}`);
+    };
+
+    const handleDeleteGoal = async (goalId) => {
+        console.log(`Meta a ser deletada: ${goalId}`);
+        
+        try {
+            await GoalService.deleteGoal(goalId);
+    
+            const existingGoals = JSON.parse(localStorage.getItem("goals") || "[]");
+            
+            const updatedGoals = existingGoals.filter(goal => goal.id !== goalId);
+            
+            localStorage.setItem("goals", JSON.stringify(updatedGoals));
+    
+            window.dispatchEvent(new Event("storageUpdate"));
+    
+            console.log(`Meta ID ${goalId} deletada com sucesso.`);
+            
+        } catch (error) {
+            console.error(`Erro ao deletar meta ID ${goalId}:`, error);
+            alert("Falha ao deletar meta. Tente novamente.");
+        }
     };
     
     return (
@@ -106,23 +132,22 @@ function Metas() {
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
                     />
-                    <button className={styles.SearchButton}>🔍</button>
+                    <img src="/src/assets/icons/icon_search.svg" alt="search icon" className={styles.SearchButton} />
                 </div>
                 
             </div>
 
             <div className={styles.ContentWrapper}>
 
-                {/* LISTA CENTRAL DE METAS */}
                 <div className={styles.MetaListArea}>
                     {metasFiltradas.length > 0 ? (
                         metasFiltradas.map((meta, index) => (
                             <MetaCard 
                                 key={meta.id} 
-                                title={meta.title || `Meta ${index + 1}`} 
+                                name={meta.name || `Meta ${index + 1}`} 
                                 description={meta.description} 
-                                onEdit={() => console.log('Editar:', meta.id)}
-                                onDelete={() => console.log('Excluir:', meta.id)}
+                                onEdit={() => handleEditGoal(meta.id)}
+                                onDelete={() => handleDeleteGoal(meta.id)}
                                 onClick={() => setActiveGoalId(meta.id)}
                                 className={meta.id === activeGoalId ? styles.ActiveMeta : ''} 
                             />
@@ -144,7 +169,7 @@ function Metas() {
                                     key={worker.id}
                                     nome={worker.name}
                                     segmento={worker.segments ? worker.segments.join(', ') : 'N/A'} 
-                                    foto={worker.image_url}
+                                    image={worker.image_url}
                                     active={worker.active}
                                 />
                             ))

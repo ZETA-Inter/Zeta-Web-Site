@@ -1,5 +1,6 @@
 const token = "TokenUserZeta1234"
-const postgres_url = "https://api-postgresql-zeta-fide.onrender.com"
+// const postgres_url = "https://api-postgresql-zeta-fide.onrender.com"
+const postgres_url = "http://localhost:8080"
 
 async function listGoalsByCompanyId(companyId) {
   try {
@@ -77,6 +78,31 @@ async function createGoal(goal) {
   }
 }
 
+async function updateGoal(goalId, goal) {
+  try {
+      const res = await fetch(`${postgres_url}/api/goals/update/${goalId}`, {
+        method: "PATCH",
+        headers: {
+          "Authorization":  `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(goal)
+      })
+
+      if (!res.ok) {
+        throw new Error("Erro na requsição: " + res.status + ", corpo: " + res.body);
+      }
+
+      const message = await res.text();
+
+      console.log("Meta atualizada com sucesso: ", message)
+
+      return message
+  } catch (err) {
+    console.error("Erro ao atualizar meta: ", err, err.message)
+  }
+}
+
 async function deleteGoal(goalId) {
   try {
     const res = await fetch(`${postgres_url}/api/goals/delete/${goalId}`, {
@@ -91,17 +117,47 @@ async function deleteGoal(goalId) {
       throw new Error("Erro na requsição: " + res.status + ", corpo: " + res.body);
     }
 
-    const data = await res.json();
+    const message = await res.text();
 
-    console.log("Meta criada com sucesso: ", data)
+    console.log("Meta deletada com sucesso: ", message)
 
   } catch (err) {
     console.error("Erro ao deletar meta: ", err, err.message)
   }
 }
 
+async function deleteWorkerGoals(goalId, workerIds) {
+  try {
+    const res = await fetch(`${postgres_url}/api/worker-goals/delete-workers-goal-by-goalId/${goalId}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization":  `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(workerIds)
+    })
+
+    if (!res.ok) {
+      const errorBody = await res.text(); 
+      throw new Error(`Erro na requisição: ${res.status}, corpo: ${errorBody}`);
+  }
+
+    const message = await res.text();
+
+    console.log(`Ids de produtores ${workerIds} da Meta com Id ${goalId} deletada com sucesso: `, message);
+    return message;
+
+  } catch (err) {
+    console.error("Erro ao deletar produtores da meta: ", err, err.message);
+    throw err;
+  }
+}
+
 export default {
   listGoalsByCompanyId,
   listWorkerIdsByGoalId,
-  createGoal
+  updateGoal,
+  createGoal,
+  deleteGoal,
+  deleteWorkerGoals
 };

@@ -105,7 +105,7 @@ function Home() {
 
       <div className={styles.WelcomeBanner}>
         <div className={styles.BannerContent}>
-          <h3>Bem vindo à plataforma de gerenciamento do seu zeta!</h3>
+          <h3>Bem vindo à plataforma de gerenciamento do seu Zeta!</h3>
           <p>Permitindo moldar sua estrutura para realizar os treinamentos</p>
         </div>
         <img src="/src/assets/images/circulo-home-zeni.png" alt="" />

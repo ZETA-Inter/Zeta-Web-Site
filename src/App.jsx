@@ -19,7 +19,7 @@ function App() {
             <Route path="/curso" element={<Curso />} />
             <Route path="/metas" element={<Metas />} />
             <Route path="/produtor" element={<Produtor />} />
-            <Route path="metas/create" element={<CreateMetas />} />
+            <Route path="/metas/create/:goalId?" element={<CreateMetas />} />
           </Routes>
         </div>
       </div>

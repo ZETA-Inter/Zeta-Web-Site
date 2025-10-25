@@ -1,13 +1,17 @@
 import React from 'react';
 import styles from './CardProdutor.module.css';
 
-function CardProdutor({ nome, segmento, foto, active }) {
+function CardProdutor({ nome, segmento, image, active, image_size }) {
 
-  const fallbackFoto = foto || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+  const fallbackFoto = image || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
 
   return (
     <li className={styles.ProdutorCard}>
-      <img src={fallbackFoto} alt={nome} className={styles.ProdutorFoto} />
+      <img src={fallbackFoto} alt={nome} className={styles.ProdutorFoto}
+        style={{
+          width: image_size || '10%',
+        }}
+      />
 
       <div className={styles.ProdutorInfo}>
         <div className={styles.ProdutorNome}>{nome}</div>
