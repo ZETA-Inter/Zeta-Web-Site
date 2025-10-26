@@ -16,7 +16,8 @@ function ProdutoresList({ produtores }) {
           nome={produtor.name}
           segmento={produtor.segments.join(', ')}
           active={produtor.active}
-          foto={produtor.image_url}
+          image={produtor.image_url}
+          imageSize="10%"
         />
       ))}
     </ul>
