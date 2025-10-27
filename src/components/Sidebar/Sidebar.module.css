@@ -3,7 +3,7 @@
   width: 15%; 
   height: 70%;
   min-height: 90vh;
-  padding: 0;
+  padding: 20px 0px;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -16,7 +16,6 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  /* Padding para afastar o logo da lateral */
   padding: 30px 45px; 
   margin-bottom: 20px;
   font-weight: 700;
@@ -35,7 +34,6 @@
 }
 
 .SideBar nav ul li {
-  /* Espaçamento entre os links */
   margin-bottom: 10px; 
 }
 
@@ -47,7 +45,6 @@
   gap: 10px;
   font-weight: 500;
   transition: background-color 0.2s, color 0.2s;
-  /* Padding para afastar os links da lateral */
   padding: 15px 45px; 
 }
 
@@ -60,42 +57,27 @@
   color: #007bff !important;
   font-weight: 600;
   border-left: 4px solid #007bff; 
-  /* Ajuste de padding para compensar a borda e manter o alinhamento */
   padding-left: 41px !important; 
 }
 
-.exploreButton {
-  display: block; 
-  background: linear-gradient(135deg, #5b4cf3, #7c64ff);
-  background-image: url("/src/assets/images/Fundo-btn-circular.png");
-  background-size: cover;
-  color: white;
-  text-align: center;
-  padding: 15px;
-  height: 25vh;
-  /* Margens para afastar das bordas laterais e da base da SideBar */
-  margin: 0 20px 20px 20px; 
-  border-radius: 15px;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 20px;
-
-  div{
-    margin-bottom: 15px;
-  }
-
-  button{
-    margin-top: 10px;
-    background-color:white;
-    color: #000;
-    width: 20vh;
-  }
+.LogoutContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.exploreButton a {
-    color: white;
-    text-decoration: underline;
-    font-size: 12px;
-    display: block;
-    margin-top: 5px;
+.LogoutButton {
+  
+  width: 80%;
+  padding: 15px;
+  background: linear-gradient(90deg, #4540E4 0%, #26237E 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 35px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.3s;
 }

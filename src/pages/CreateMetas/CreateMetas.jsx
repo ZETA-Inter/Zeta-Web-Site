@@ -70,7 +70,8 @@ function CreateMetas() {
 
                 setTitle(goalToEdit.name);
                 setDescription(goalToEdit.description);
-
+                setSelectedProgramId(goalToEdit.program_id ? String(goalToEdit.program_id) : '');
+                
                 const assignedIds = await GoalService.listWorkerIdsByGoalId(goalId);
 
                 setOriginalWorkerIds(assignedIds);

@@ -1,5 +1,6 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom"; 
+import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import styles from "./SideBar.module.css";
 import logo from "../../assets/images/logo_zeta.svg"
 import iconHome from "../../assets/icons/icon_home.svg"
@@ -10,6 +11,8 @@ import iconProdutor from "../../assets/icons/icon_produtor.svg"
 
 function SideBar() {
   const location = useLocation(); 
+
+  const { logout } = useAuth();
 
   const getLinkClass = (path) => {
     return location.pathname === path ? styles.activeLink : '';
@@ -26,7 +29,7 @@ function SideBar() {
         <nav>
           <ul>
             <li>
-              <Link to="/" className={getLinkClass("/")}>
+              <Link to="/home" className={getLinkClass("/home")}>
                   <img src={iconHome} alt="Home" width={20} height={20} />
                   Home
               </Link>
@@ -53,11 +56,13 @@ function SideBar() {
         </nav>
       </div>
       
-      <div className={styles.exploreButton}>
-        <div>Explorar novas funcionalidades</div>
-        <div>acesse novos planos</div>
-        <button>Planos</button> 
+      <div className={styles.LogoutContainer}>
+        <button
+          className={styles.LogoutButton}
+          onClick={logout}
+          >Sair</button>
       </div>
+
     </div>
   );
 }
