@@ -101,9 +101,31 @@ async function updateWorker(workerId, worker) {
   }
 }
 
+async function ListGoalsByWorker(workerId) {
+  try {
+    const res = await fetch(`${postgres_url}/api/goals/list-goals-by-workerId/${workerId}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    });
+    if (!res.ok) {
+      throw new Error("Erro na requisição: " + res.status);
+    }
+    const data = await res.json();
+    console.log(`Lista de metas do produtor ${workerId}: `, data)
+    return data;
+  } catch (err) {
+    console.error("Erro ao buscar metas do produtor: ", err);
+    throw err;
+  }
+}
+
 export default {
   listWorkersByCompany,
   inactiveWorker,
   createWorker,
-  updateWorker
+  updateWorker,
+  ListGoalsByWorker
 };

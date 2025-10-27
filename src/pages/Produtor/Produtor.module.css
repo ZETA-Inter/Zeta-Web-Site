@@ -1,0 +1,162 @@
+/* --- LAYOUT PRINCIPAL --- */
+.ProdutorPage {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    padding: 20px;
+    height: calc(100vh - 80px); 
+}
+
+.MainContent {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    min-width: 0; 
+
+}
+
+.PageTitle {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.SearchBar {
+    display: flex;
+    width: 100%; 
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+.SearchBar input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #333;
+    font-size: 1rem;
+}
+
+.SearchButton {
+    background-color: transparent;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.SegmentosContainer {
+  margin-bottom: 20px;
+}
+
+
+.ListWrapper {
+    flex: 1; 
+    overflow-y: auto; 
+    padding-right: 10px; 
+}
+
+.StatsSidebar {
+    flex-basis: 350px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dashProdutorees {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; 
+}
+
+.dashAtivos,
+.dashInativos {
+    background-color: #ffffff;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashAtivos p,
+.dashInativos p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #333;
+    font-weight: 500;
+}
+
+.dashAtivos h2,
+.dashInativos h2 {
+    margin: 0;
+    color: #333;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.dashAtivos span,
+.dashInativos span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+
+.dashAtivos span {
+    color: #1abc9c;
+    background-color: #e8f8f5;
+}
+
+.dashInativos span {
+    color: #e74c3c;
+    background-color: #fbedeb;
+}
+
+/* --- Placeholder para Metas e Botão --- */
+.MetasCard {
+    background-color: #ffffff;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    text-align: center;
+    color: #333;
+}
+
+.ChartPlaceholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 15px solid #e0e0e0;
+    border-top-color:#4540E4 ;
+    animation: spin 1s linear infinite;
+    --cor-progresso: linear-gradient(90deg, #4540E4 0%, #26237E 100%);
+    --cor-fundo-grafico: #e0e0e0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4540E4 ;;
+}
+
+.AddButton {
+    background-color: #4540E4 ;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+}
