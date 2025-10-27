@@ -27,6 +27,31 @@ async function assignGoal(goalId, workerIds) {
     }
 }
 
+async function login(email) {
+    try {
+        const res = await fetch(`${postgres_url}/api/companies/find-email/${email}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!res.ok) {
+            const errText = await res.text();
+            throw new Error(`Erro na requisição: ${res.status} — ${errText}`);
+        }
+
+        const data = await res.json();
+
+        console.log("Meta atribuída com sucesso: ", data);
+        return data;
+    } catch (err) {
+        console.error("Erro ao atribuir meta:", err.message);
+    }
+}
+
 export default {
-    assignGoal
+    assignGoal,
+    login
 }
