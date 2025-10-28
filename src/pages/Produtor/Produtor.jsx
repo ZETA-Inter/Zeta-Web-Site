@@ -1,8 +1,9 @@
-import React, {useMemo, useState, useEffect} from "react";
+import React, {useMemo, useState, useEffect } from "react";
 import styles from "./Produtor.module.css";
 import ProdutoresList from "../../components/ProdutoresList/ProdutoresList";
 import SegmentosList from "../../components/SegmentosList/SegmentosList";
 import WorkerService from "../../services/workerService"
+import { useNavigate } from "react-router-dom";
 
 const getInitialData = (key, defaultValue) => { 
     const saved = localStorage.getItem(key);
@@ -13,6 +14,8 @@ const getInitialData = (key, defaultValue) => {
 }
 
 function Produtor() {
+
+  const navigate = useNavigate();
 
   const companyId = localStorage.getItem("companyId") || 1;
 
@@ -114,6 +117,10 @@ function Produtor() {
 
       fetchGoals();
     }, [workers]);
+
+    const handleAddWorkerClick = () => {
+      navigate('/worker/create');
+    };
     
     
   return (
@@ -176,7 +183,8 @@ function Produtor() {
             <p>Metas não concluídas: {metasStats.naoConcluidas}</p>
         </div>
 
-        <button className={styles.AddButton}>Adicionar produtor</button>
+        <button className={styles.AddButton}
+        onClick={handleAddWorkerClick}>Adicionar produtor</button>
 
       </aside>
     </main>

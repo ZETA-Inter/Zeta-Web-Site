@@ -6,6 +6,7 @@ import Produtor from "./pages/Produtor/Produtor";
 import Curso from "./pages/Curso/Curso";
 import Metas from "./pages/Metas/Metas";
 import CreateMetas from "./pages/CreateMetas/CreateMetas"
+import CreateProdutor from "./pages/CreateProdutor/CreateProdutor";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/metas" element={<Metas />} />
             <Route path="/produtor" element={<Produtor />} />
             <Route path="/metas/create/:goalId?" element={<CreateMetas />} />
+            <Route path="/worker/create" element={<CreateProdutor />} />
           </Routes>
         </div>
       </div>
