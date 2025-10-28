@@ -19,6 +19,8 @@ function Home() {
 
   const companyId = localStorage.getItem("companyId") || 1;
 
+  console.log(companyId  )
+
   const loadGoalsFromStorage = () => getInitialData("goals", []);
 
   const [workers, setWorkers] = useState(() => getInitialData("workers", []));

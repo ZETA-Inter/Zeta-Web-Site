@@ -7,6 +7,8 @@ import Curso from "./pages/Curso/Curso";
 import Metas from "./pages/Metas/Metas";
 import CreateMetas from "./pages/CreateMetas/CreateMetas"
 import CreateProdutor from "./pages/CreateProdutor/CreateProdutor";
+import AppLayout from './pages/AppLayout/AppLayout';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
@@ -25,8 +27,11 @@ function App() {
           </Routes>
         </div>
       </div>
+      <AuthProvider>
+        <AppLayout /> 
+      </AuthProvider>
     </Router>
-  )
+  );
 }
 
 export default App
