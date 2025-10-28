@@ -6,6 +6,7 @@ import Produtor from "../Produtor/Produtor";
 import Curso from "../Curso/Curso";
 import Metas from "../Metas/Metas";
 import CreateMetas from "../CreateMetas/CreateMetas"
+import CreateProdutor from "../CreateProdutor/CreateProdutor"
 import Login from "../Login/Login"
 import ProtectedRoute from '../../components/ProtectedRoute/ProtectedRoute';
 
@@ -27,6 +28,7 @@ function AppLayout() {
             <Route path="/metas" element={<ProtectedRoute><Metas /></ProtectedRoute>} />
             <Route path="/produtor" element={<ProtectedRoute><Produtor /></ProtectedRoute>} />
             <Route path="/metas/create/:goalId?" element={<ProtectedRoute><CreateMetas /></ProtectedRoute>} />
+            <Route path="/worker/create" element={<ProtectedRoute><CreateProdutor /></ProtectedRoute>} />
           </Routes>
         </div>
       </div>
