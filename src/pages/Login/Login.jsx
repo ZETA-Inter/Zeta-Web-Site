@@ -24,12 +24,16 @@ function Login() {
         setIsSubmitting(true);
 
         try {            
-            await signInWithEmailAndPassword(auth, email, password);
+            const credential = await signInWithEmailAndPassword(auth, email, password);
+            const token = await credential.user.getIdToken();
+            // localStorage.setItem("authToken", token);
 
             const company = await CompanyService.login(email); 
 
             if (company && company.id) {
                 localStorage.setItem("companyId", company.id);
+                localStorage.setItem("planId", company.plan_id);
+                
                 
                 console.log("Login de empresa bem-sucedido! ID:", company.id);
             } else {
