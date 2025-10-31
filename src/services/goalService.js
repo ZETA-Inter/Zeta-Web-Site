@@ -64,7 +64,8 @@ async function createGoal(goal) {
       })
 
       if (!res.ok) {
-        throw new Error("Erro na requsição: " + res.status + ", corpo: " + res.body);
+        const errorText = await res.text(); 
+        throw new Error(`Erro na requsição: ${res.status}, corpo: ${errorText}`);      
       }
 
       const data = await res.json();

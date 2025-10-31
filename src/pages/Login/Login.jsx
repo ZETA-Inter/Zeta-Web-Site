@@ -25,7 +25,6 @@ function Login() {
 
         try {            
             const credential = await signInWithEmailAndPassword(auth, email, password);
-            const token = await credential.user.getIdToken();
             // localStorage.setItem("authToken", token);
 
             const company = await CompanyService.login(email); 

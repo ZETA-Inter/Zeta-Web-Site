@@ -122,7 +122,6 @@ function Produtor() {
       navigate('/worker/create');
     };
     
-    
   return (
     <main className={styles.ProdutorPage}>
  
@@ -172,8 +171,8 @@ function Produtor() {
             <div className={styles.ChartPlaceholder}
               style={{
                 background: `conic-gradient(
-                  var(--cor-progresso) 75%,
-                  var(--cor-fundo-grafico) 75%
+                  var(--cor-progresso) ${metasStats.percentual}%,
+                  var(--cor-fundo-grafico) ${metasStats.percentual}%
                 )`
                 }}>
               

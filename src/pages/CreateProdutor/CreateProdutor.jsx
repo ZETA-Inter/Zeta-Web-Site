@@ -28,6 +28,10 @@ function CreateProdutor() {
     const [senha, setSenha] = useState('');
     const [confirmarSenha, setConfirmarSenha] = useState('');
 
+    const [selectedProgramId, setSelectedProgramId] = useState('');
+    
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (senha !== confirmarSenha) {
@@ -120,6 +124,43 @@ function CreateProdutor() {
         setConfirmarSenha('');
         navigate(-1); 
     };
+
+      useEffect(() => {
+    const loadGoalData = async () => {
+        if (!isEditing) return;
+
+        try {
+            const existingGoals = JSON.parse(localStorage.getItem("goals") || "[]");
+            const goalToEdit = existingGoals.find(g => String(g.id) === goalId);
+            
+            if (!goalToEdit) {
+                alert("Meta não encontrada. Redirecionando.");
+                navigate('/metas');
+                return;
+            }
+
+            setTitle(goalToEdit.name);
+            setDescription(goalToEdit.description);
+            setSelectedProgramId(goalToEdit.program_id ? String(goalToEdit.program_id) : '');
+            
+            const assignedIds = await GoalService.listWorkerIdsByGoalId(goalId);
+
+            setOriginalWorkerIds(assignedIds);
+            
+            setSelectedWorkerIds(assignedIds); 
+
+            if (assignedIds.length > 0 && assignedIds.length === availableWorkers.length) {
+                setSelectAllWorkers(true);
+            }
+
+        } catch (error) {
+            console.error("Erro ao carregar dados da meta:", error);
+            alert("Não foi possível carregar os detalhes da meta para edição.");
+            navigate('/metas');
+        }
+    };
+    loadGoalData();
+  }, [isEditing, goalId, navigate, availableWorkers]);
 
     return (
         <main className={styles.mainContent}>
