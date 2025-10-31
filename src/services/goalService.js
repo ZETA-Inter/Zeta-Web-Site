@@ -52,18 +52,21 @@ async function listWorkerIdsByGoalId(goalId) {
     }
 }
 
+// Em goalService.js
+
+// Em goalService.js
+
 async function createGoal(goal) {
   try {
-      const res = await fetch(`${postgres_url}/api/goals/create`, {
-        method: "POST",
-        headers: {
-          "Authorization":  `Bearer ${token}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(goal)
-      })
-
-      if (!res.ok) {
+        const res = await fetch(`${postgres_url}/api/goals/create`, {
+          method: "POST",
+          headers: {
+            "Authorization":  `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(goal)
+        });
+if (!res.ok) {
         const errorText = await res.text(); 
         throw new Error(`Erro na requsição: ${res.status}, corpo: ${errorText}`);      
       }
