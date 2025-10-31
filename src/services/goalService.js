@@ -52,28 +52,48 @@ async function listWorkerIdsByGoalId(goalId) {
     }
 }
 
+// Em goalService.js
+
+// Em goalService.js
+
 async function createGoal(goal) {
   try {
-      const res = await fetch(`${postgres_url}/api/goals/create`, {
+        const res = await fetch(`${postgres_url}/api/goals/create`, {
         method: "POST",
         headers: {
-          "Authorization":  `Bearer ${token}`,
+          "Authorization":  `Bearer ${token}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify(goal)
-      })
+    });
 
       if (!res.ok) {
-        throw new Error("Erro na requsição: " + res.status + ", corpo: " + res.body);
-      }
+        const errorText = await res.text();
+        let errorBody;
 
-      const data = await res.json();
+          try {
+            errorBody = JSON.parse(errorText);
+          } catch (e) {
+            errorBody = errorText; 
+          }
 
-      console.log("Meta criada com sucesso: ", data)
+        console.error("ERRO REAL VINDO DA API:", errorBody);
+                const errorMessage = (errorBody && errorBody.message) 
+            ? errorBody.message 
+            : (typeof errorBody === 'string' ? errorBody : `Erro ${res.status}`);
+            
+        throw new Error(errorMessage); 
+}
 
-      return data
-  } catch (err) {
-    console.error("Erro ao criar meta: ", err, err.message)
+    const data = await res.json(); 
+
+    console.log("Meta criada com sucesso: ", data);
+    return data;
+
+  } catch (err) { 
+  console.error("Erro final no goalService: ", err.message);
+
+    throw err;
   }
 }
 
