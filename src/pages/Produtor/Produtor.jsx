@@ -1,6 +1,6 @@
 import React, {useMemo, useState, useEffect } from "react";
 import styles from "./Produtor.module.css";
-import ProdutoresList from "../../components/ProdutoresList/ProdutoresList";
+import CardProdutorEdit from "../../components/CardProdutor/CardProdutorEdit";
 import SegmentosList from "../../components/SegmentosList/SegmentosList";
 import WorkerService from "../../services/workerService"
 import { useNavigate } from "react-router-dom";
@@ -54,73 +54,61 @@ function Produtor() {
   const [searchText, setSearchText] = useState('');
   
     const produtoresFiltrados = useMemo(() => {
-      if (!segmentoAtivo) {
-        return workers;
-      }
+  let lista = [...workers];
 
-      if (searchText) {
-          const lowerCaseSearch = searchText.toLowerCase();
-          lista = lista.filter(workers => 
-              (workers.name && workers.name.toLowerCase().includes(lowerCaseSearch)) ||
-              (workers.email && workers.email.toLowerCase().includes(lowerCaseSearch))
-          );
-      }
-      
-      return workers.filter(w => 
-        w.segments && w.segments.includes(segmentoAtivo) 
-      );
-      
-    }, [segmentoAtivo, workers]);
+  if (segmentoAtivo) {
+    lista = lista.filter(w => w.segments && w.segments.includes(segmentoAtivo));
+  }
+
+  if (searchText) {
+    const lowerCaseSearch = searchText.toLowerCase();
+    lista = lista.filter(w =>
+      (w.name && w.name.toLowerCase().includes(lowerCaseSearch)) ||
+      (w.email && w.email.toLowerCase().includes(lowerCaseSearch))
+    );
+  }
+
+  return lista;
+}, [segmentoAtivo, searchText, workers]);
   
     const handleSegmentoSelection = (segmento) => {
       setSegmentoAtivo(segmento);
     };
-
-    useEffect(() => {
-      async function fetchGoals() {
-        if(workers.length === 0) return;
-
-        setGoalsLoading(true);
-
-        try {
-          const goalPromisses = worker.map(w => 
-            WorkerService.ListGoalsByWorker(w.id)
-          );
-
-          const goalsResults = await Promise.all(goalPromisses);
-
-          const allGoals = goalsResults.flat();
-
-          const metasConcluidas = allGoals.filter(goal =>
-            goal.status === "concluida"
-          )
-
-          const totalMetas = allGoals.length;
-
-          const metasNaoConcluidas = totalMetas - metasConcluidas.length;
-
-          const percentual = totalMetas === 0 ? 0 : Math.round((metasConcluidas.length / totalMetas) * 100);
-
-          setMetasStats({
-            concluidas: metasConcluidas.length,
-            naoConcluidas: metasNaoConcluidas,
-            percentual: percentual
-          });
-        } catch (error) {
-          console.error("Erro ao carregar metas: ", error);
-        } finally {
-          setGoalsLoading(false);
-        }
-      }
-
-      console.log("Workers: ", workers);
-
-      fetchGoals();
-    }, [workers]);
+  
 
     const handleAddWorkerClick = () => {
       navigate('/worker/create');
     };
+
+    const handleEditWorker = (workerid) => {
+      console.log("Editando produtor:", workerid);
+      navigate(`/worker/create/${workerid}`)
+    }
+
+    const handleDeleteWorker = async (workerid) => {
+  console.log(`Inativando produtor: ${workerid}`);
+
+  try {
+    await WorkerService.inactiveWorker(workerid);
+
+    const existWorkers = JSON.parse(localStorage.getItem("workers") || "[]");
+
+    const updatedWorkers = existWorkers.map(worker =>
+      worker.id === workerid ? { ...worker, active: false } : worker
+    );
+
+    localStorage.setItem("workers", JSON.stringify(updatedWorkers));
+
+    window.dispatchEvent(new Event("storageUpdate"));
+
+    console.log(`Produtor ID ${workerid} inativado com sucesso.`);
+    alert("Produtor inativado com sucesso!");
+  } catch (error) {
+    console.error(`Erro ao inativar produtor ID ${workerid}:`, error);
+    alert("Falha ao inativar produtor. Tente novamente.");
+  }
+};
+
     
   return (
     <main className={styles.ProdutorPage}>
@@ -146,10 +134,20 @@ function Produtor() {
         </div>
 
         <div className={styles.ListWrapper}>
-          {workersLoading ? (
-            <p>Carregando produtores...</p>
-          ) : (
-            <ProdutoresList produtores={produtoresFiltrados} />
+          {produtoresFiltrados.length > 0 ? (
+            produtoresFiltrados.map((worker) => (
+              <CardProdutorEdit
+                key={worker.id}
+                name={worker.name}
+                segmento={worker.segmento}
+                image={worker.image}
+                image_size={worker.image_size}
+                active={worker.active}
+                onEdit={() => handleEditWorker(worker.id)}
+                onDelete={() => handleDeleteWorker(worker.id)}
+              />
+            ))): (
+              <p>Nenhum produtor encontrada para a busca: "{searchText || 'todas'}"</p>
             )}
         </div>
       </div>
