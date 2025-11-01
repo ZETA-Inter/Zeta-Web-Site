@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import workerService from '../../services/workerService';
 import styles from './CreateProdutor.module.css';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../firebaseConfig";
-import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, setDoc, updateDoc } from "firebase/firestore";
 
 function CreateProdutor() {
 
-    
-  const { workerid } = useParams();
+  const { workerId } = useParams();
   const navigate = useNavigate();
 
-  const isEditing = Boolean(workerid);
+  const isEditing = Boolean(workerId);
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -27,22 +26,42 @@ function CreateProdutor() {
     if (isEditing) {
       async function fetchWorkerData() {
         try {
-          const worker = await workerService.getWorkerById(workerid);
-          if (worker) {
-            setNome(worker.name || '');
-            setEmail(worker.email || '');
-            setCpf(worker.cpf || '');
-            setTelefone(worker.telefone || '');
-            setImgUrl(worker.image_url || '');
-            setActive(worker.active ?? true);
+          const worker = await workerService.getWorkerById(workerId);
+
+          console.log("Worker Data: " + worker)
+
+          const q = query(
+            collection(db, "Produtor"),
+            where("Email", "==", worker.email)
+          );
+
+          const querySnapshot = await getDocs(q);
+
+          let cpfFirebase = '';
+          let telefoneFirebase = '';
+
+          if (!querySnapshot.empty) {
+            const docData = querySnapshot.docs[0].data();
+            cpfFirebase = docData.CPF || docData.cpf || '';
+            telefoneFirebase = docData.Telefone || docData.telefone || '';
+          } else {
+            console.warn("Nenhum documento encontrado no Firestore para este e-mail.");
           }
+
+          setNome(worker.name || '');
+          setEmail(worker.email || '');
+          setImgUrl(worker.image_url || '');
+          setActive(worker.active ?? true);
+          setCpf(cpfFirebase);
+          setTelefone(telefoneFirebase);
+
         } catch (err) {
           console.error("Erro ao carregar dados do produtor:", err);
         }
       }
       fetchWorkerData();
     }
-  }, [isEditing, workerid]);
+  }, [isEditing, workerId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,91 +80,73 @@ function CreateProdutor() {
         return;
       }
 
-      const Worker = {
-        name: nome,
+      const workerPayload = {
         email,
-        image_url: imgUrl,
+        name: nome,
         company_id: Number(companyId),
-        plan_info: {
-          id: Number(planId),
-          frequency: "default_frequency",
-          amount: 0.0
-        },
         active,
-        telefone,
-        cpf
       };
 
-      if (isEditing) {
-        // 🔹 Atualiza no banco
-        const updatedWorker = await workerService.updateWorker(workerid, Worker);
+      console.log("Worker Payload: " + JSON.stringify(workerPayload))
 
-        // 🔹 Atualiza no Firebase, se existir
-        try {
-          const userRef = doc(db, "Produtor", workerid);
-          const userSnap = await getDoc(userRef);
+      if (!isEditing) {
+        const createdWorker = await workerService.createWorker(workerPayload);
 
-          if (userSnap.exists()) {
-            await updateDoc(userRef, {
-              nome,
-              email,
-              cpf,
-              telefone,
-              image_url: imgUrl,
-              active
-            });
-            console.log("Firebase atualizado com sucesso.");
-          } else {
-            console.log("Usuário não encontrado no Firebase, criando novo...");
-            await setDoc(userRef, {
-              nome,
-              email,
-              cpf,
-              telefone,
-              image_url: imgUrl,
-              active
-            });
-          }
-        } catch (firebaseErr) {
-          console.error("Erro ao atualizar Firebase:", firebaseErr);
+        if (!createdWorker) {
+          alert("Erro ao criar produtor. Verifique se o email já está cadastrado.");
+          return;
         }
 
-        alert(`Produtor ${updatedWorker.name} atualizado com sucesso!`);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+        const user = userCredential.user;
+
+        await setDoc(doc(db, "Produtor", user.uid), {
+          CPF: cpf,
+          Email: email,
+          Nome: nome,
+          Telefone: telefone,
+          createdAt: new Date(),
+        });
+
+        alert(`Produtor ${nome} criado com sucesso!`);
         navigate(`/produtores`);
-
-      } else {
-        // 🔹 Cria no banco
-        const createdWorker = await workerService.createWorker(Worker);
-
-        if (createdWorker) {
-          // 🔹 Cria usuário no Firebase Authentication
-          const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-          const user = userCredential.user;
-
-          // 🔹 Cria documento no Firestore
-          await setDoc(doc(db, "Produtor", user.uid), {
-            uid: user.uid,
-            nome,
-            email,
-            cpf,
-            telefone,
-            image_url: imgUrl,
-            active
-          });
-
-          alert(`Produtor ${createdWorker.name} criado com sucesso!`);
-          navigate(`/produtores`);
-        } else {
-          alert("Erro ao criar produtor. Verifique se o email ou CPF já estão cadastrados.");
-        }
       }
 
-      // 🔹 Atualiza lista local
+      else {
+        const updatedWorker = await workerService.updateWorker(workerId, workerPayload);
+
+        const q = query(collection(db, "Produtor"), where("Email", "==", email));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          const userDoc = querySnapshot.docs[0];
+          await updateDoc(userDoc.ref, {
+            Nome: nome,
+            Telefone: telefone,
+            CPF: cpf,
+            Email: email,
+            updatedAt: new Date(),
+          });
+        } else {
+          await setDoc(doc(collection(db, "Produtor")), {
+            Nome: nome,
+            Telefone: telefone,
+            CPF: cpf,
+            Email: email,
+            createdAt: new Date(),
+          });
+        }
+
+        alert(`Produtor ${workerPayload.name} atualizado com sucesso!`);
+        navigate(`/produtor`);
+      }
+
       const updatedList = await workerService.listWorkersByCompany(companyId);
-      localStorage.setItem('workers', JSON.stringify(updatedList));
+      localStorage.setItem("workers", JSON.stringify(updatedList));
       window.dispatchEvent(new Event("storageUpdate"));
+
     } catch (error) {
-      console.error("Erro ao criar/atualizar produtor: ", error);
+      console.error("Erro ao criar/atualizar produtor:", error);
       alert("Erro ao salvar produtor. Por favor, tente novamente.");
     }
   };

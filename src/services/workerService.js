@@ -26,6 +26,31 @@ async function listWorkersByCompany(companyId) {
   }
 }
 
+async function getWorkerById(workerId) {
+   try {
+    const res = await fetch(`${postgres_url}/api/workers/find-by-id/${workerId}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    });
+  
+    if (!res.ok) {
+      throw new Error("Erro na requisição: " + res.status);
+    }
+      
+    const data = await res.json();
+    
+    console.log(`Produtor com ID=${workerId}: `, data)
+    
+    return data;
+  } catch (err) {
+    console.error("Erro ao buscar produtor: ", err);
+    throw err;
+  }
+}
+
 async function inactiveWorker(workerId) {
   try {
     const res = await fetch(`${postgres_url}/api/workers/inactive/${workerId}`, {
@@ -50,6 +75,7 @@ async function inactiveWorker(workerId) {
     throw err;
   }
 }
+
 async function createWorker(worker) {
   try {
     // const token = localStorage.getItem('authToken'); 
@@ -130,6 +156,7 @@ async function ListGoalsByWorker(workerId) {
 }
 
 export default {
+  getWorkerById,
   listWorkersByCompany,
   inactiveWorker,
   createWorker,
