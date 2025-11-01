@@ -1,9 +1,9 @@
-const token = "TokenUserZeta1234"
-const postgres_url = "https://api-postgresql-zeta-fide.onrender.com"
+const token = import.meta.env.VITE_TOKEN
+const postgresUrl = import.meta.env.VITE_POSTGRES_URL
 
 async function assignGoal(goalId, workerIds) {
     try {
-        const res = await fetch(`${postgres_url}/api/companies/assign-goal/${goalId}`, {
+        const res = await fetch(`${postgresUrl}/api/companies/assign-goal/${goalId}`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -29,7 +29,7 @@ async function assignGoal(goalId, workerIds) {
 
 async function login(email) {
     try {
-        const res = await fetch(`${postgres_url}/api/companies/find-email/${email}`, {
+        const res = await fetch(`${postgresUrl}/api/companies/find-email/${email}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,

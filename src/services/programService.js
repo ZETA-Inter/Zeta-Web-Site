@@ -1,9 +1,9 @@
-const token = "TokenUserZeta1234"
-const postgres_url = "https://api-postgresql-zeta-fide.onrender.com"
+const token = import.meta.env.VITE_TOKEN
+const postgresUrl = import.meta.env.VITE_POSTGRES_URL
 
 async function listAllPrograms() {
     try {
-      const res = await fetch(`${postgres_url}/api/programs/list-all`, {
+      const res = await fetch(`${postgresUrl}/api/programs/list-all`, {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${token}`,

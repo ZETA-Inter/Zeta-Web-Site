@@ -1,9 +1,9 @@
-const token = "TokenUserZeta1234"
-const postgres_url = "https://api-postgresql-zeta-fide.onrender.com"
+const token = import.meta.env.VITE_TOKEN
+const postgresUrl = import.meta.env.VITE_POSTGRES_URL
 
 async function listGoalsByCompanyId(companyId) {
   try {
-    const res = await fetch(`${postgres_url}/api/goals/list-goals-by-company?companyId=${companyId}`, {
+    const res = await fetch(`${postgresUrl}/api/goals/list-goals-by-company?companyId=${companyId}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -29,7 +29,7 @@ async function listGoalsByCompanyId(companyId) {
 
 async function listWorkerIdsByGoalId(goalId) {
   try {
-    const res = await fetch(`${postgres_url}/api/worker-goals/list-worker-ids-by-goalId/${goalId}`, {
+    const res = await fetch(`${postgresUrl}/api/worker-goals/list-worker-ids-by-goalId/${goalId}`, {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -52,13 +52,9 @@ async function listWorkerIdsByGoalId(goalId) {
     }
 }
 
-// Em goalService.js
-
-// Em goalService.js
-
 async function createGoal(goal) {
   try {
-        const res = await fetch(`${postgres_url}/api/goals/create`, {
+        const res = await fetch(`${postgresUrl}/api/goals/create`, {
           method: "POST",
           headers: {
             "Authorization":  `Bearer ${token}`,
@@ -83,7 +79,7 @@ if (!res.ok) {
 
 async function updateGoal(goalId, goal) {
   try {
-      const res = await fetch(`${postgres_url}/api/goals/update/${goalId}`, {
+      const res = await fetch(`${postgresUrl}/api/goals/update/${goalId}`, {
         method: "PATCH",
         headers: {
           "Authorization":  `Bearer ${token}`,
@@ -108,7 +104,7 @@ async function updateGoal(goalId, goal) {
 
 async function deleteGoal(goalId) {
   try {
-    const res = await fetch(`${postgres_url}/api/goals/delete/${goalId}`, {
+    const res = await fetch(`${postgresUrl}/api/goals/delete/${goalId}`, {
       method: "DELETE",
       headers: {
         "Authorization":  `Bearer ${token}`,
@@ -131,7 +127,7 @@ async function deleteGoal(goalId) {
 
 async function deleteWorkerGoals(goalId, workerIds) {
   try {
-    const res = await fetch(`${postgres_url}/api/worker-goals/delete-workers-goal-by-goalId/${goalId}`, {
+    const res = await fetch(`${postgresUrl}/api/worker-goals/delete-workers-goal-by-goalId/${goalId}`, {
       method: "DELETE",
       headers: {
         "Authorization":  `Bearer ${token}`,
