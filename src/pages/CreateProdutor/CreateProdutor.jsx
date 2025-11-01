@@ -16,8 +16,6 @@ function CreateProdutor() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [cpf, setCpf] = useState('');
-  const [active, setActive] = useState(true);
-  const [imgUrl, setImgUrl] = useState('');
   const [telefone, setTelefone] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
@@ -50,8 +48,6 @@ function CreateProdutor() {
 
           setNome(worker.name || '');
           setEmail(worker.email || '');
-          setImgUrl(worker.image_url || '');
-          setActive(worker.active ?? true);
           setCpf(cpfFirebase);
           setTelefone(telefoneFirebase);
 
@@ -84,7 +80,7 @@ function CreateProdutor() {
         email,
         name: nome,
         company_id: Number(companyId),
-        active,
+        active: true
       };
 
       console.log("Worker Payload: " + JSON.stringify(workerPayload))
@@ -207,29 +203,6 @@ function CreateProdutor() {
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
           />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="imgUrl">Imagem URL</label>
-          <input
-            type="text"
-            id="imgUrl"
-            placeholder="Digite a URL da imagem..."
-            value={imgUrl}
-            onChange={(e) => setImgUrl(e.target.value)}
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="active">Atividade</label>
-          <select
-            id="active"
-            value={active}
-            onChange={(e) => setActive(e.target.value === 'true')}
-          >
-            <option value="true">Sim</option>
-            <option value="false">Não</option>
-          </select>
         </div>
 
         {!isEditing && (
