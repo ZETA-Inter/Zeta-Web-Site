@@ -28,7 +28,7 @@ function AppLayout() {
             <Route path="/metas" element={<ProtectedRoute><Metas /></ProtectedRoute>} />
             <Route path="/produtor" element={<ProtectedRoute><Produtor /></ProtectedRoute>} />
             <Route path="/metas/create/:goalId?" element={<ProtectedRoute><CreateMetas /></ProtectedRoute>} />
-            <Route path="/worker/create" element={<ProtectedRoute><CreateProdutor /></ProtectedRoute>} />
+            <Route path="/worker/create/:workerId?" element={<ProtectedRoute><CreateProdutor /></ProtectedRoute>} />
           </Routes>
         </div>
       </div>

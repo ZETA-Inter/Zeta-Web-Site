@@ -32,7 +32,7 @@
 .createUserForm {
     width: 100%;
     max-width: 700px;
-    max-height: calc(150vh - 280px);
+    max-height: calc(100vh - 250px);
     overflow-y: auto;
     padding-bottom: 24px;
     box-sizing: border-box; 

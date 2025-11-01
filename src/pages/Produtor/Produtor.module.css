@@ -133,11 +133,9 @@
 .ChartPlaceholder {
     width: 150px;
     height: 150px;
-    border-radius: 50%;
-    border: 15px solid #e0e0e0;
-    border-top-color:#4540E4 ;
-    animation: spin 1s linear infinite;
-    --cor-progresso: linear-gradient(90deg, #4540E4 0%, #26237E 100%);
+    border-radius: 50%; 
+
+    --cor-progresso: #4540E4; 
     --cor-fundo-grafico: #e0e0e0;
 
     display: flex;
@@ -146,7 +144,7 @@
     margin: 20px auto;
     font-size: 1.5rem;
     font-weight: bold;
-    color: #4540E4 ;;
+    color: #4540E4;
 }
 
 .AddButton {

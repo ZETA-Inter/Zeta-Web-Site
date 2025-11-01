@@ -50,30 +50,37 @@ async function inactiveWorker(workerId) {
     throw err;
   }
 }
-
 async function createWorker(worker) {
   try {
-      const res = await fetch(`${postgres_url}/api/workers/create`, {
-        method: "POST",
-        headers: {
-          "Authorization":  `Bearer ${token}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(worker)
-      })
+    // const token = localStorage.getItem('authToken'); 
+    
+    // if (!token) {
+    //     throw new Error("Token de autorização não encontrado.");
+    // }
 
-      if (!res.ok) {
-        throw new Error("Erro na requsição: " + res.status);
-      }
+    const res = await fetch(`${postgres_url}/api/workers/create`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`, 
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(worker)
+    });
 
-      const data = await res.json();
+    if (!res.ok) {
+      throw new Error("Erro na requsição: " + res.status);
+    }
 
-      console.log("Produtor criado com sucesso: ", data)
+    const data = await res.json();
+    console.log("Produtor criado com sucesso: ", data);
+    
+    return data;
 
-      return data
   } catch (err) {
-    console.error("Erro ao criar trabalhador: ", err, err.message)
-  }
+      console.error("Erro ao criar trabalhador: ", err.message);
+      
+      return null;
+    }
 }
 
 async function updateWorker(workerId, worker) {
