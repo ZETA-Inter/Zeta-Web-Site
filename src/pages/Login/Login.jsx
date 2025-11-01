@@ -1,8 +1,8 @@
 import styles from "./Login.module.css"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from 'react-router-dom'
 import LogoImage from "../../assets/images/img_logo_login.svg"
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import CompanyService from "../../services/companySerice"
 
@@ -13,6 +13,16 @@ function Login() {
     const [password, setPassword] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                navigate('/home');
+            }
+        });
+
+        return () => unsubscribe();
+    }, [navigate]);
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -24,12 +34,15 @@ function Login() {
         setIsSubmitting(true);
 
         try {            
-            await signInWithEmailAndPassword(auth, email, password);
+            const credential = await signInWithEmailAndPassword(auth, email, password);
+            // localStorage.setItem("authToken", token);
 
             const company = await CompanyService.login(email); 
 
             if (company && company.id) {
                 localStorage.setItem("companyId", company.id);
+                localStorage.setItem("planId", company.plan_id);
+                
                 
                 console.log("Login de empresa bem-sucedido! ID:", company.id);
             } else {

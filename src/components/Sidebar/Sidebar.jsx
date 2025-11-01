@@ -4,7 +4,6 @@ import { useAuth } from "../../context/AuthContext";
 import styles from "./SideBar.module.css";
 import logo from "../../assets/images/logo_zeta.svg"
 import iconHome from "../../assets/icons/icon_home.svg"
-import iconCurso from "../../assets/icons/icon_curso.svg"
 import iconMetas from "../../assets/icons/icon_metas.svg"
 import iconProdutor from "../../assets/icons/icon_produtor.svg"
 
@@ -22,33 +21,27 @@ function SideBar() {
     <div className={styles.SideBar}>
       <div> 
         <div className={styles.logo}>
-          <img src={logo} alt="ZETA" width={60} height={60}/> 
+          <img src={logo} alt="ZETA" className="img-zeta"/> 
           <span>ZETA</span>
         </div>
 
         <nav>
           <ul>
-            <li>
+            <li className="home">
               <Link to="/home" className={getLinkClass("/home")}>
-                  <img src={iconHome} alt="Home" width={20} height={20} />
+                  <img src={iconHome} alt="Home"/>
                   Home
               </Link>
             </li>
-            <li>
-              <Link to="/curso" className={getLinkClass("/curso")}>
-                  <img src={iconCurso} alt="Curso" width={20} height={20} />
-                  Curso
-              </Link>
-            </li>
-            <li>
+            <li className="metas">
               <Link to="/metas" className={getLinkClass("/metas")}>
-                  <img src={iconMetas} alt="Metas" width={20} height={20} />
+                  <img src={iconMetas} alt="Metas" />
                   Metas
               </Link>
             </li>
-            <li>
+            <li className="produtor">
               <Link to="/produtor" className={getLinkClass("/produtor")}>
-                  <img src={iconProdutor} alt="Produtor" width={20} height={20} />
+                  <img src={iconProdutor} alt="Produtor" />
                   Produtor
               </Link>
             </li>
