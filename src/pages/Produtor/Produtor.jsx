@@ -5,6 +5,7 @@ import SegmentosList from "../../components/SegmentosList/SegmentosList";
 import WorkerService from "../../services/workerService"
 import GoalService from "../../services/goalService"
 import { useNavigate } from "react-router-dom";
+import iconSearch from "../../assets/icons/icon_search.svg"
 
 const getInitialData = (key, defaultValue) => { 
     const saved = localStorage.getItem(key);
@@ -26,6 +27,7 @@ function Produtor() {
   // const [workersLoading, setWorkersLoading] = useState(!hasCachedWorkers); 
   const [metasStats, setMetasStats] = useState({
     concluidas: 0,
+    total: 0,
     percentual: 0
   });
 
@@ -48,8 +50,9 @@ function Produtor() {
             const stats = await GoalService.CountProgressGoals(companyId); 
             
             setMetasStats({
-                concluidas: stats.concluidas || 0, 
-                percentual: stats.percentual || 0  
+                concluidas: stats.completedGoals || 0,
+                total: stats.totalGoals || 0,
+                percentual: Math.round((stats.completedGoals / stats.totalGoals) * 100) || 0
             });
 
         } catch (error) {
@@ -57,6 +60,7 @@ function Produtor() {
             
             setMetasStats({
                 concluidas: 0,
+                total: 0,
                 percentual: 0
             });
         }
@@ -84,10 +88,6 @@ function Produtor() {
 
   return lista;
 }, [segmentoAtivo, searchText, workers]);
-
-
-
-
   
     const handleSegmentoSelection = (segmento) => {
       setSegmentoAtivo(segmento);
@@ -146,7 +146,7 @@ function Produtor() {
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
-            <img src="/src/assets/icons/icon_search.svg" alt="search icon" className={styles.SearchButton} />
+            <img src={iconSearch} alt="search icon" className={styles.SearchButton} />
             
           </div>
           <div className={styles.SegmentosContainer}>
@@ -189,18 +189,33 @@ function Produtor() {
         </div>
 
         <div className={styles.MetasCard}>
-            <p>Progresso de metas</p>
-            <div className={styles.ChartPlaceholder}
+          <p>Progresso de metas</p>
+  
+          <div className={styles.ChartContainer}>
+            <div 
+              className={styles.ChartCircle}
               style={{
-                background: `conic-gradient(
-                  var(--cor-progresso) ${metasStats.percentual}%,
-                  var(--cor-fundo-grafico) ${metasStats.percentual}%
-                )`
-                }}> 
-              
-                <span>{metasStats.percentual}%</span>
-              </div>
+              background: `conic-gradient(
+                var(--cor-progresso, #4540E4) ${metasStats.percentual}%,
+                var(--cor-fundo-grafico, #e0e0e0) ${metasStats.percentual}%
+              )`
+            }}
+          >
+          <div className={styles.ChartInner}>
+            <span>{metasStats.percentual}%</span>
+          </div>
         </div>
+        
+        </div>
+          <div className={styles.ChartInfo}>
+          <p>
+             Metas totais: <strong>{metasStats.total}</strong>
+          </p>
+          <p>
+            Metas concluídas: <strong>{metasStats.concluidas}</strong> 
+          </p>
+        </div>
+      </div>
 
         <button className={styles.AddButton}
         onClick={handleAddWorkerClick}>Adicionar produtor</button>

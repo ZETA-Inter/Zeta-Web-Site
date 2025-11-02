@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './CardMetaEdit.module.css';
+import iconEdit from '../../assets/icons/icon_edit.svg';
+import iconDelete from '../../assets/icons/icon_delete.svg';
 
 function CardMetaEdit({ id, name, description, onEdit, onDelete, onClick, className }) {
     return (
@@ -18,7 +20,7 @@ function CardMetaEdit({ id, name, description, onEdit, onDelete, onClick, classN
             
             <div className={styles.Actions}>
                 <img
-                    src="/src/assets/icons/icon_edit.svg" 
+                    src={iconEdit} 
                     className={styles.EditButton} 
                     onClick={(e) => { 
                         e.stopPropagation();
@@ -28,7 +30,7 @@ function CardMetaEdit({ id, name, description, onEdit, onDelete, onClick, classN
                 />
                 
                 <img
-                    src="/src/assets/icons/icon_delete.svg" 
+                    src={iconDelete}
                     className={styles.DeleteButton} 
                     onClick={(e) => { 
                         e.stopPropagation();

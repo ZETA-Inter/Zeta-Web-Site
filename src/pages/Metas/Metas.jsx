@@ -4,6 +4,8 @@ import GoalService from "../../services/goalService";
 import MetaCard from "../../components/CardMeta/CardMetaEdit"; 
 import WorkerCard from "../../components/CardProdutor/CardProdutor";
 import { useNavigate } from "react-router-dom";
+import iconSearch from "../../assets/icons/icon_search.svg";
+
 
 const getInitialData = (key, defaultValue) => {
     const saved = localStorage.getItem(key);
@@ -132,7 +134,7 @@ function Metas() {
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
                     />
-                    <img src="/src/assets/icons/icon_search.svg" alt="search icon" className={styles.SearchButton} />
+                    <img src={iconSearch} alt="search icon" className={styles.SearchButton} />
                 </div>
                 
             </div>
