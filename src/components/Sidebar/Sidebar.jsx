@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import styles from "./SideBar.module.css";
+import styles from "./Sidebar.module.css";
 import logo from "../../assets/images/logo_zeta.svg";
 import iconHome from "../../assets/icons/icon_home.svg";
 import iconMetas from "../../assets/icons/icon_metas.svg";
