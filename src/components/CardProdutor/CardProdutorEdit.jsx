@@ -22,7 +22,7 @@ function CardProdutorEdit({ id, name, segmento, image, active, image_size,onEdit
                           {active ? 'Ativo' : 'Inativo'}
                       </span>
                   </div>
-                  <div className={styles.ProdutorSegmento}>Segmentos: {segmento}</div>
+                  {/* <div className={styles.ProdutorSegmento}>Segmentos: {segmento}</div> */}
                 </div>
               </div>
 

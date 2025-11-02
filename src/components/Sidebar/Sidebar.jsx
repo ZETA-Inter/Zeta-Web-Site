@@ -11,7 +11,7 @@ function SideBar() {
   const location = useLocation(); 
   const { logout } = useAuth();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const getLinkClass = (path) => location.pathname === path ? styles.activeLink : '';
 

@@ -157,8 +157,7 @@ function Produtor() {
           </div>
         </div>
 
-        <div className={styles.ListContent}>
-          <div className={styles.ListWrapper}>
+        <div className={styles.ListWrapper}>
             {produtoresFiltrados.length > 0 ? (
               produtoresFiltrados.map((worker) => (
                 <CardProdutorEdit
@@ -175,7 +174,6 @@ function Produtor() {
                 <p>Nenhum produtor encontrada para a busca: "{searchText || 'todas'}"</p>
               )}
           </div>
-        </div>
       </div>
 
       <aside className={styles.StatsSidebar}>
