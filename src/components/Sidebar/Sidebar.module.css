@@ -1,85 +1,156 @@
-.SideBar {
+.SideBar { 
   background-color: #fcfcfc; 
   width: 15%; 
-  height: 70%;
-  min-height: 90vh;
-  padding: 20px 0px;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
+  height: 70%; 
+  min-height: 90vh; 
+  padding: 20px 0px; 
+  border-radius: 15px; 
+  display: flex; 
+  flex-direction: column; 
   justify-content: space-between; 
-  border-right: 1px solid #e0e0e0;
-  margin-top: 25px;
+  border-right: 1px solid #e0e0e0; 
+  margin-top: 25px; 
+} 
+
+.SideBar.mobileHidden {
+  transform: translateX(-110%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 30px 45px; 
-  margin-bottom: 20px;
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: #333;
+.Hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+  padding: 20px;
+  z-index: 1100;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
-
-
+.Hamburger span {
+  width: 30px;
+  height: 3px;
+  background-color: #333;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+  
+.logo { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; padding: 30px 45px; 
+  margin-bottom: 20px; 
+  font-weight: 700; 
+  font-size: 1.2rem; 
+  color: #333; 
+} 
 .SideBar nav {
-  margin: 50px 0px;
-}
+    
+   align-items: center;
+} 
 
-.SideBar nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+.SideBar nav ul { 
+  list-style: none; 
+  padding: 0; 
+  margin: 15px; 
+} 
 
-.SideBar nav ul li {
+.SideBar nav ul li { 
   margin-bottom: 10px; 
-}
+} 
 
-.SideBar nav ul li a {
-  text-decoration: none;
-  color: #555;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 500;
-  transition: background-color 0.2s, color 0.2s;
-  padding: 15px 45px; 
-}
+.SideBar nav ul li a { 
+  text-decoration: none; 
+  color: #555; 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+  font-weight: 500; 
+  transition: background-color 0.2s, color 0.2s; 
+  padding: 15px 25px; 
+} 
 
-.SideBar nav ul li a:hover {
-  color: #000;
-}
+.SideBar nav ul li a:hover { 
+  color: #000; 
+} 
 
-.activeLink {
-  background-color: #e8f0ff;
-  color: #007bff !important;
-  font-weight: 600;
+.activeLink { 
+  background-color: #e8f0ff; 
+  color: #007bff !important; 
+  font-weight: 600; 
   border-left: 4px solid #007bff; 
   padding-left: 41px !important; 
+} 
+
+.LogoutContainer { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+} 
+
+.LogoutButton { 
+  width: 80%; 
+  padding: 15px; 
+  background: linear-gradient(90deg, #4540E4 0%, #26237E 100%); 
+  color: white; 
+  border: none; 
+  border-radius: 8px; 
+  font-size: 1.1rem; 
+  font-weight: 600; 
+  cursor: pointer; 
+  margin-top: 35px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+  transition: opacity 0.3s; 
 }
 
-.LogoutContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@media (max-width: 1100px) {
+  .SideBar {
+    width: 40%;
+  }
 }
 
-.LogoutButton {
-  
-  width: 80%;
-  padding: 15px;
-  background: linear-gradient(90deg, #4540E4 0%, #26237E 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 35px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  transition: opacity 0.3s;
+@media (max-width: 1100px) {
+  .SideBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transform: translateX(-110%);
+    z-index: 1;
+  }
+
+  .Hamburger {
+    display: flex;
+    padding: 20px;
+    z-index: 1100;
+    top: 0;
+    left: 0;
+  }
+
+  .SideBar {
+    transform: none;
+    transition: transform 0.28s ease-in-out;
+}
+}
+
+@media (max-width: 900px){
+  .logo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .SideBar nav ul li a {
+    align-items: center;
+    padding:  15px 45px;
+  }
+
+  .SideBar nav ul li a span{
+    display: none;
+  }
 }

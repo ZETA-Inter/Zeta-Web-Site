@@ -7,6 +7,8 @@
   align-items: center;
   gap: 15px;
   transition: transform 0.2s;
+  justify-content: space-between;
+  margin:10px  15px;
 }
 
 .ProdutorCard:hover {
@@ -22,7 +24,7 @@
 
 .ProdutorInfo {
   display: flex;
-  flex-direction: column;
+  gap: 10px;
 }
 
 .ProdutorNome {

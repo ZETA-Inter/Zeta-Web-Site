@@ -25,6 +25,7 @@ function Home() {
 
   const [workers, setWorkers] = useState(() => getInitialData("workers", []));
   const [goals, setGoals] = useState(loadGoalsFromStorage);
+  
  
   useEffect(() => {
     const handleStorageChange = () => {
@@ -99,47 +100,50 @@ function Home() {
 
   const isLoading = workersLoading || goalsLoading;
 
-  return(
-    <main className={styles.HomeContainer}> 
-      <h2>Bem vindo, Usuário</h2> 
+    return(
+      <main className={styles.HomeContainer}> 
+        <h2>Bem vindo, Usuário</h2> 
 
-      <img src={mascote} alt="Mascote ZETA" className={styles.Mascote} />
+        {/* <img src={mascote} alt="Mascote ZETA" className={styles.Mascote} /> */}
 
-      <div className={styles.WelcomeBanner}>
-        <div className={styles.BannerContent}>
-          <h3>Bem vindo à plataforma de gerenciamento do seu Zeta!</h3>
-          <p>Permitindo moldar sua estrutura para realizar os treinamentos</p>
-        </div>
-        <img src="/src/assets/images/circulo-home-zeni.png" alt="" />
-      </div>
-      
-      <div className={styles.Informacoes}>
-        <div className={styles.InfosProdutores}>
-          
-          <div className={styles.InfosSegmentos}>
-            <SegmentosList 
-              onSelectSegmento={handleSegmentoSelection}
-            />
+        <div className={styles.WelcomeBanner}>
+          <div className={styles.BannerContent}>
+            <h3>Bem vindo à plataforma de gerenciamento do seu Zeta!</h3>
+            <p>Permitindo moldar sua estrutura para realizar os treinamentos</p>
           </div>
-        
-          
-          {workersLoading ? (
-             <p>Carregando produtores...</p>
-          ) : (
-            <ProdutoresList produtores={produtoresFiltrados} />
-          )}
-
+          {/* <img src="/src/assets/images/circulo-home-zeni.png" alt="" /> */}
         </div>
-
-        {goalsLoading ? (
-          <p>Carregando metas...</p>
-        ) : (
-          <MetasList metas={goals} />
-        )}
         
-      </div>
-    </main>
-  )
+        <div className={styles.Informacoes}>
+
+          <div className={styles.filterworkers}>
+            <div className={styles.InfosSegmentos}>
+                <SegmentosList
+                  onSelectSegmento={handleSegmentoSelection}
+                />
+            </div>
+            
+            <div className={styles.InfosProdutores}>
+            
+              {workersLoading ? (
+                <p>Carregando produtores...</p>
+              ) : (
+                <ProdutoresList produtores={produtoresFiltrados} />
+              )}
+            </div>
+          </div>
+
+          <div className={styles.ListMetas}>
+            {goalsLoading ? (
+              <p>Carregando metas...</p>
+            ) : (
+              <MetasList metas={goals} />
+            )}
+          </div>
+          
+        </div>
+      </main>
+    )
 }
 
 export default Home;

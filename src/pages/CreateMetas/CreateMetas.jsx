@@ -317,7 +317,8 @@ function CreateMetas() {
                             value={workerSearchText}
                             onChange={(e) => setWorkerSearchText(e.target.value)}
                         />
-                        <button type="button" className={styles.SearchButton}>🔍</button>
+                        <img src="/src/assets/icons/icon_search.svg" alt="search icon" className={styles.SearchButton} />
+                        
                     </div>
                     
                     <div className={styles.SelectAllBox}>

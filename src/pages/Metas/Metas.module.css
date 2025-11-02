@@ -119,11 +119,11 @@
     color: #333;
     max-height: 50vh; 
     overflow-y: auto;
+}
 
-    p{
+.WorkerList p{
         font-size: 2vh;
     }
-}
 
 .AddButton {
     width: 100%;
@@ -140,3 +140,38 @@
 .AddButton:hover {
     opacity: 0.9;
 }
+
+    @media (max-width: 900px) {
+    .MetasPage {
+        display: flex;
+        flex-direction: column; 
+        max-height: 100vh;
+        overflow-y: auto;
+        scrollbar-width: none;
+    }
+
+    .MetasPage::-webkit-scrollbar {
+        display: none;
+    }
+
+    .PageTitle {
+        font-size: 1.5rem;
+        text-align: center;
+        order: -1;
+    }
+
+    .SearchBar {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .ContentWrapper {
+        display: flex;
+        flex-direction: column;
+        overflow-y: visible;
+        gap: 20px;
+        height: 80vh;
+    }
+
+
+    }
