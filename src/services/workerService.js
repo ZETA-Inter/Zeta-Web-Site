@@ -1,9 +1,9 @@
-const token = "TokenUserZeta1234"
-const postgres_url = "https://api-postgresql-zeta-fide.onrender.com"
+const token = import.meta.env.VITE_TOKEN
+const postgresUrl = import.meta.env.VITE_POSTGRES_URL
 
 async function listWorkersByCompany(companyId) {
   try {
-    const res = await fetch(`${postgres_url}/api/workers/list-by-companyId/${companyId}`, {
+    const res = await fetch(`${postgresUrl}/api/workers/list-by-companyId/${companyId}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -28,7 +28,7 @@ async function listWorkersByCompany(companyId) {
 
 async function getWorkerById(workerId) {
    try {
-    const res = await fetch(`${postgres_url}/api/workers/find-by-id/${workerId}`, {
+    const res = await fetch(`${postgresUrl}/api/workers/find-by-id/${workerId}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -53,7 +53,7 @@ async function getWorkerById(workerId) {
 
 async function inactiveWorker(workerId) {
   try {
-    const res = await fetch(`${postgres_url}/api/workers/inactive/${workerId}`, {
+    const res = await fetch(`${postgresUrl}/api/workers/inactive/${workerId}`, {
       method: "PATCH",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -84,7 +84,7 @@ async function createWorker(worker) {
     //     throw new Error("Token de autorização não encontrado.");
     // }
 
-    const res = await fetch(`${postgres_url}/api/workers/create`, {
+    const res = await fetch(`${postgresUrl}/api/workers/create`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`, 
@@ -111,7 +111,7 @@ async function createWorker(worker) {
 
 async function updateWorker(workerId, worker) {
   try {
-      const res = await fetch(`${postgres_url}/api/workers/update/${workerId}`, {
+      const res = await fetch(`${postgresUrl}/api/workers/update/${workerId}`, {
         method: "PATCH",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -136,7 +136,7 @@ async function updateWorker(workerId, worker) {
 
 async function ListGoalsByWorker(workerId) {
   try {
-    const res = await fetch(`${postgres_url}/api/goals/list-goals-by-workerId/${workerId}`, {
+    const res = await fetch(`${postgresUrl}/api/goals/list-goals-by-workerId/${workerId}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
