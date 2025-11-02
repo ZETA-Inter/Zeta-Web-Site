@@ -153,6 +153,9 @@
     max-height: 42vh;
     overflow-y: auto;
 }
+.WorkerSelectionList::-webkit-scrollbar{
+    display: none;
+}
 
 .WorkerSelectionItem {
     display: flex;
@@ -203,4 +206,61 @@
 .SaveButton:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+}
+
+
+@media (max-width: 1100px){
+
+    .CreateMetasPage{
+        display: flex;
+        flex-direction: column; 
+        max-height: 100vh;
+        overflow-y: auto;
+        scrollbar-width: none; 
+    }
+
+    .CreateMetasPage::-webkit-scrollbar{
+        display: none;
+    }
+
+    .ContentWrapper{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .SidebarSticky{
+        order: -1;
+        max-width: 90%;
+    }
+
+    .SidebarSticky .SidebarTitle{
+        text-align: center;
+    }
+
+    .SidebarSticky .SearchBar{
+        margin: 10px;
+    }
+
+    .FormArea{
+        margin-top: 0px;
+        padding-top: 0px;
+    }
+
+    .PageTitle{
+        text-align: center;
+    }
+
+
+
+    .SidebarSticky,
+    .ContentWrapper,
+    .CreateMetasPage{
+        width: 100%;               
+        position: static;           
+        flex: none;                 
+        height: auto;               
+        margin: 0;                  
+        padding: 10px 0;  
+    }
 }

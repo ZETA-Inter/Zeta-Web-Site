@@ -52,6 +52,31 @@ async function listWorkerIdsByGoalId(goalId) {
     }
 }
 
+async function CountProgressGoals(companyId){
+   try {
+    const res = await fetch(`${postgres_url}/api/goals/finished-goals-percentage/${companyId}`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error("Erro na requisição: " + res.status);
+    }
+    
+    const data = await res.json();
+  
+    console.log(`Lista de worker Ids da meta ${companyId}: `, data)
+  
+    return data;
+    } catch (err) {
+        console.error("Erro ao buscar metas : ", err);
+        throw err;
+    }
+}
+
 async function createGoal(goal) {
   try {
         const res = await fetch(`${postgresUrl}/api/goals/create`, {
@@ -158,5 +183,6 @@ export default {
   updateGoal,
   createGoal,
   deleteGoal,
-  deleteWorkerGoals
+  deleteWorkerGoals,
+  CountProgressGoals
 };

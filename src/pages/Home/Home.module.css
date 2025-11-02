@@ -28,11 +28,12 @@ body{
   justify-content: flex-start;
   align-items: center;
   height: 20vh;
+  width: 100%;
 
   img{
       position: relative;
       height: 20vh;
-      left: 32vh;
+      left: 20%;
   }
 }
 
@@ -51,7 +52,7 @@ body{
 .Mascote {
   position: absolute;
   top: 0px;
-  right: 165px;
+  right: 12%;
   width: 170px;
   height: auto;
   transform: translateY(-40px) translateX(0); 
@@ -69,4 +70,84 @@ body{
 
 .InfosProdutores {
   flex: 2;
+  max-height: 60vh;
 }
+
+.filterworkers{
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 900px) {
+  .HomeContainer {
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column; 
+    max-height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+     position: static;  
+  }
+
+  .HomeContainer h2{
+    text-align: center;
+  }
+
+  .WelcomeBanner {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 125px;
+  }
+
+
+  .Informacoes {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .InfosProdutores{
+    min-height: 20vh;
+    overflow-y: visible;
+    order: 2;
+  }
+
+  .ListMetas{
+    order: -1;
+
+  }
+
+  .BannerContent h3 {
+    font-size: 1.3rem;
+    padding-left: 15px;
+  }
+
+  .BannerContent p {
+    font-size: 0.95rem;
+    max-width: 90%;
+    padding-left: 15px;
+  }
+
+  .BannerContent,
+  .InfosProdutores,
+  .Informacoes,
+  .WelcomeBanner{
+    width: 100%;               
+    position: static;           
+    flex: none;                 
+    height: auto;               
+    margin: 0;                  
+    padding: 10px 0;   
+  }
+
+}
+
+/* @media (max-width: 1200px){
+  .WelcomeBanner img {
+    display: none; 
+  }
+
+  .Mascote {
+    display: none;
+  }
+} */

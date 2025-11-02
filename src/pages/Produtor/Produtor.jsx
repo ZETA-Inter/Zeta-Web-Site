@@ -3,6 +3,7 @@ import styles from "./Produtor.module.css";
 import CardProdutorEdit from "../../components/CardProdutor/CardProdutorEdit";
 import SegmentosList from "../../components/SegmentosList/SegmentosList";
 import WorkerService from "../../services/workerService"
+import GoalService from "../../services/goalService"
 import { useNavigate } from "react-router-dom";
 
 const getInitialData = (key, defaultValue) => { 
@@ -22,14 +23,11 @@ function Produtor() {
   const [workers, setWorkers] = useState(() => getInitialData("workers", []));
 
   const hasCachedWorkers = workers.length > 0;
-  const [workersLoading, setWorkersLoading] = useState(!hasCachedWorkers); 
-  const [metasStats, satMetasStats] = useState({
-    concluidas: 0, 
-    naoConcluidas: 0,
+  // const [workersLoading, setWorkersLoading] = useState(!hasCachedWorkers); 
+  const [metasStats, setMetasStats] = useState({
+    concluidas: 0,
     percentual: 0
   });
-
-  const [goalsLoading, setGoalsLoading] = useState(true);
 
     useEffect(() => {
   
@@ -42,12 +40,28 @@ function Produtor() {
               localStorage.setItem("workers", JSON.stringify(fetchedWorkers));
           } catch (error) {
               console.error("Erro ao carregar produtores: ", error);
-          } finally {
-              setWorkersLoading(false);
           }
       }
 
-      fetchWorkers();
+      async function fetchPercentual() {
+        try {
+            const stats = await GoalService.CountProgressGoals(companyId); 
+            
+            setMetasStats({
+                concluidas: stats.concluidas || 0, 
+                percentual: stats.percentual || 0  
+            });
+
+        } catch (error) {
+            console.error("Erro ao carregar percentual das metas: ", error);
+            
+            setMetasStats({
+                concluidas: 0,
+                percentual: 0
+            });
+        }
+      }
+      fetchWorkers(), fetchPercentual();
     }, [companyId, hasCachedWorkers]);
 
   const [segmentoAtivo, setSegmentoAtivo] = useState(null);
@@ -70,6 +84,10 @@ function Produtor() {
 
   return lista;
 }, [segmentoAtivo, searchText, workers]);
+
+
+
+
   
     const handleSegmentoSelection = (segmento) => {
       setSegmentoAtivo(segmento);
@@ -109,46 +127,54 @@ function Produtor() {
   }
 };
 
+
+
     
   return (
     <main className={styles.ProdutorPage}>
  
       <div className={styles.MainContent}>
-        <h1 className={styles.PageTitle}>Produtores</h1>
         
-        <div className={styles.SearchBar}>
-          <input 
-            type="text"   
-            placeholder="Pesquisar"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-          <button className={styles.SearchButton}>🔍</button>
+        <div className={styles.filters}>
+
+          <h1 className={styles.PageTitle}>Produtores</h1>
+          
+          <div className={styles.SearchBar}>
+            <input
+              type="text"
+              placeholder="Pesquisar"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+            <img src="/src/assets/icons/icon_search.svg" alt="search icon" className={styles.SearchButton} />
+            
+          </div>
+          <div className={styles.SegmentosContainer}>
+            <SegmentosList
+              onSelectSegmento={handleSegmentoSelection}
+              segmentoAtivo={segmentoAtivo}
+            />
+          </div>
         </div>
 
-        <div className={styles.SegmentosContainer}>
-          <SegmentosList 
-            onSelectSegmento={handleSegmentoSelection}
-            segmentoAtivo={segmentoAtivo} 
-          />
-        </div>
-
-        <div className={styles.ListWrapper}>
-          {produtoresFiltrados.length > 0 ? (
-            produtoresFiltrados.map((worker) => (
-              <CardProdutorEdit
-                key={worker.id}
-                name={worker.name}
-                segmento={worker.segmento}
-                image={worker.image}
-                image_size={worker.image_size}
-                active={worker.active}
-                onEdit={() => handleEditWorker(worker.id)}
-                onDelete={() => handleDeleteWorker(worker.id)}
-              />
-            ))): (
-              <p>Nenhum produtor encontrada para a busca: "{searchText || 'todas'}"</p>
-            )}
+        <div className={styles.ListContent}>
+          <div className={styles.ListWrapper}>
+            {produtoresFiltrados.length > 0 ? (
+              produtoresFiltrados.map((worker) => (
+                <CardProdutorEdit
+                  key={worker.id}
+                  name={worker.name}
+                  segmento={worker.segmento}
+                  image={worker.image}
+                  image_size={worker.image_size}
+                  active={worker.active}
+                  onEdit={() => handleEditWorker(worker.id)}
+                  onDelete={() => handleDeleteWorker(worker.id)}
+                />
+              ))): (
+                <p>Nenhum produtor encontrada para a busca: "{searchText || 'todas'}"</p>
+              )}
+          </div>
         </div>
       </div>
 
@@ -172,12 +198,10 @@ function Produtor() {
                   var(--cor-progresso) ${metasStats.percentual}%,
                   var(--cor-fundo-grafico) ${metasStats.percentual}%
                 )`
-                }}>
+                }}> 
               
                 <span>{metasStats.percentual}%</span>
               </div>
-            <p>Metas concluídas: {metasStats.concluidas}</p>
-            <p>Metas não concluídas: {metasStats.naoConcluidas}</p>
         </div>
 
         <button className={styles.AddButton}
