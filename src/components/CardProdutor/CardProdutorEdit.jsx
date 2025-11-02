@@ -1,6 +1,7 @@
 import React from "react";
 import styles from './CardProdutorEdit.module.css';
-
+import iconEdit from '../../assets/icons/icon_edit.svg';
+import iconDelete from '../../assets/icons/icon_delete.svg';
 
 function CardProdutorEdit({ id, name, segmento, image, active, image_size,onEdit, onDelete }) {
   const fallbackFoto = image || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
@@ -28,7 +29,7 @@ function CardProdutorEdit({ id, name, segmento, image, active, image_size,onEdit
 
               <div className={styles.Actions}>
                     <img
-                        src="/src/assets/icons/icon_edit.svg" 
+                        src={iconEdit}
                         className={styles.EditButton} 
                         onClick={(e) => { 
                             e.stopPropagation();
@@ -37,7 +38,7 @@ function CardProdutorEdit({ id, name, segmento, image, active, image_size,onEdit
                     />
                     
                     <img
-                        src="/src/assets/icons/icon_delete.svg" 
+                        src={iconDelete}
                         className={styles.DeleteButton} 
                         onClick={(e) => { 
                             e.stopPropagation();

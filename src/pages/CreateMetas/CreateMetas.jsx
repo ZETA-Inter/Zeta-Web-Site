@@ -5,6 +5,7 @@ import WorkerCard from '../../components/CardProdutor/CardProdutor';
 import GoalService from '../../services/goalService';
 import CompanySerice from '../../services/companySerice';
 import ProgramService from '../../services/programService';
+import iconSearch from '../../assets/icons/icon_search.svg'
 
 const getInitialData = (key, defaultValue) => {
     const saved = localStorage.getItem(key);
@@ -317,7 +318,7 @@ function CreateMetas() {
                             value={workerSearchText}
                             onChange={(e) => setWorkerSearchText(e.target.value)}
                         />
-                        <img src="/src/assets/icons/icon_search.svg" alt="search icon" className={styles.SearchButton} />
+                        <img src={iconSearch} alt="search icon" className={styles.SearchButton} />
                         
                     </div>
                     

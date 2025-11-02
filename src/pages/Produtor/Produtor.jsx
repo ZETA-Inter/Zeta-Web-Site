@@ -5,6 +5,7 @@ import SegmentosList from "../../components/SegmentosList/SegmentosList";
 import WorkerService from "../../services/workerService"
 import GoalService from "../../services/goalService"
 import { useNavigate } from "react-router-dom";
+import iconSearch from "../../assets/icons/icon_search.svg"
 
 const getInitialData = (key, defaultValue) => { 
     const saved = localStorage.getItem(key);
@@ -145,7 +146,7 @@ function Produtor() {
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
-            <img src="/src/assets/icons/icon_search.svg" alt="search icon" className={styles.SearchButton} />
+            <img src={iconSearch} alt="search icon" className={styles.SearchButton} />
             
           </div>
           <div className={styles.SegmentosContainer}>
