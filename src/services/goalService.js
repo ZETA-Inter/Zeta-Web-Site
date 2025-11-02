@@ -54,7 +54,7 @@ async function listWorkerIdsByGoalId(goalId) {
 
 async function CountProgressGoals(companyId){
    try {
-    const res = await fetch(`${postgres_url}/api/goals/finished-goals-percentage/${companyId}`, {
+    const res = await fetch(`${postgresUrl}/api/goals/finished-goals-percentage/${companyId}`, {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -68,7 +68,7 @@ async function CountProgressGoals(companyId){
     
     const data = await res.json();
   
-    console.log(`Lista de worker Ids da meta ${companyId}: `, data)
+    console.log(`Metas totais e completadas do companyId=${companyId}: `, data)
   
     return data;
     } catch (err) {
